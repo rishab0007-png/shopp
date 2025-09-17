@@ -54,7 +54,7 @@
         <h2 class="product-name">Product 1</h2>
         <p class="product-specs">
           asus tuf f 16<br />
-          Specification B: Value 2<br />
+          Lenevo loq<br />
           Specification C: Value 3
         </p>
       </div>
