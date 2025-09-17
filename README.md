@@ -46,10 +46,9 @@
 
   <h1>Our Products</h1>
   <div class="product-container">
-  
     <div class="product-card">
       <div class="product-image">
-        <img src="image.jpg" alt="Product 1" />
+        <img src="attached_image:1" alt="Product 1" />
       </div>
       <div class="product-details">
         <h2 class="product-name">Product 1</h2>
@@ -60,10 +59,9 @@
         </p>
       </div>
     </div>
-    
     <div class="product-card">
       <div class="product-image">
-        <img src="image.jpg" alt="Product 2" />
+        <img src="attached_image:2" alt="Product 2" />
       </div>
       <div class="product-details">
         <h2 class="product-name">Product 2</h2>
@@ -74,10 +72,9 @@
         </p>
       </div>
     </div>
-
     <div class="product-card">
       <div class="product-image">
-        <img src="image.jpg" alt="Product 3" />
+        <img src="attached_image:3" alt="Product 3" />
       </div>
       <div class="product-details">
         <h2 class="product-name">Product 3</h2>
@@ -88,8 +85,6 @@
         </p>
       </div>
     </div>
-
   </div>
-
 </body>
 </html>
