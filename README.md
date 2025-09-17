@@ -46,7 +46,8 @@
 
   <h1>Our Products</h1>
   <div class="product-container">
-  
+
+    <!-- Product 1 -->
     <div class="product-card">
       <div class="product-image">
         <img src="https://via.placeholder.com/250x150.png?text=Product+1" alt="Product 1" />
@@ -60,7 +61,8 @@
         </p>
       </div>
     </div>
-    
+
+    <!-- Product 2 -->
     <div class="product-card">
       <div class="product-image">
         <img src="https://via.placeholder.com/250x150.png?text=Product+2" alt="Product 2" />
@@ -75,6 +77,7 @@
       </div>
     </div>
 
+    <!-- Product 3 -->
     <div class="product-card">
       <div class="product-image">
         <img src="https://via.placeholder.com/250x150.png?text=Product+3" alt="Product 3" />
@@ -85,6 +88,51 @@
           Specification A: Value 7<br />
           Specification B: Value 8<br />
           Specification C: Value 9
+        </p>
+      </div>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product-card">
+      <div class="product-image">
+        <img src="https://via.placeholder.com/250x150.png?text=Product+4" alt="Product 4" />
+      </div>
+      <div class="product-details">
+        <h2 class="product-name">Product 4</h2>
+        <p class="product-specs">
+          Specification A: Value 10<br />
+          Specification B: Value 11<br />
+          Specification C: Value 12
+        </p>
+      </div>
+    </div>
+
+    <!-- Product 5 -->
+    <div class="product-card">
+      <div class="product-image">
+        <img src="https://via.placeholder.com/250x150.png?text=Product+5" alt="Product 5" />
+      </div>
+      <div class="product-details">
+        <h2 class="product-name">Product 5</h2>
+        <p class="product-specs">
+          Specification A: Value 13<br />
+          Specification B: Value 14<br />
+          Specification C: Value 15
+        </p>
+      </div>
+    </div>
+
+    <!-- Product 6 -->
+    <div class="product-card">
+      <div class="product-image">
+        <img src="https://via.placeholder.com/250x150.png?text=Product+6" alt="Product 6" />
+      </div>
+      <div class="product-details">
+        <h2 class="product-name">Product 6</h2>
+        <p class="product-specs">
+          Specification A: Value 16<br />
+          Specification B: Value 17<br />
+          Specification C: Value 18
         </p>
       </div>
     </div>
