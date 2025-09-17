@@ -53,7 +53,7 @@
       <div class="product-details">
         <h2 class="product-name">Product 1</h2>
         <p class="product-specs">
-          Specification A: Value 1<br />
+          asus tuf f 16<br />
           Specification B: Value 2<br />
           Specification C: Value 3
         </p>
