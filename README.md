@@ -2,89 +2,303 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Product Catalog</title>
+  <title>Simple Laptop AI Assistant</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f9f9f9;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 10px;
     }
-    .product-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+    h1 {
+      text-align: center;
     }
-    .product-card {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      width: 250px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      overflow: hidden;
+    .question {
+      margin-bottom: 20px;
     }
-    .product-image img {
-      width: 100%;
-      height: auto;
-      display: block;
+    .question h3 {
+      margin-bottom: 8px;
     }
-    .product-details {
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 25px;
       padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
     }
-    .product-name {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 0 0 10px 0;
+    .hidden {
+      display: none;
     }
-    .product-specs {
-      font-size: 14px;
-      color: #555;
+    .option-label {
+      display: block;
+      margin-bottom: 5px;
     }
   </style>
 </head>
 <body>
 
-  <h1>Our Products</h1>
-  <div class="product-container">
-    <div class="product-card">
-      <div class="product-image">
-        <img src="attached_image:1" alt="Product 1" />
-      </div>
-      <div class="product-details">
-        <h2 class="product-name">Product 1</h2>
-        <p class="product-specs">
-          asus tuf f 16<br />
-          Lenevo loq<br />
-          Specification C: Value 3
-        </p>
-      </div>
-    </div>
-    <div class="product-card">
-      <div class="product-image">
-        <img src="attached_image:2" alt="Product 2" />
-      </div>
-      <div class="product-details">
-        <h2 class="product-name">Product 2</h2>
-        <p class="product-specs">
-          Specification A: Value 4<br />
-          Specification B: Value 5<br />
-          Specification C: Value 6
-        </p>
-      </div>
-    </div>
-    <div class="product-card">
-      <div class="product-image">
-        <img src="attached_image:3" alt="Product 3" />
-      </div>
-      <div class="product-details">
-        <h2 class="product-name">Product 3</h2>
-        <p class="product-specs">
-          Specification A: Value 7<br />
-          Specification B: Value 8<br />
-          Specification C: Value 9
-        </p>
-      </div>
-    </div>
+<h1>Laptop Helper Assistant</h1>
+<p>Answer a few easy questions and get a laptop suggestion.</p>
+
+<form id="quizForm">
+  <!-- Q1: main use -->
+  <div class="question">
+    <h3>1. What will you mostly do on the laptop?</h3>
+    <label class="option-label">
+      <input type="radio" name="use" value="basic" required>
+      Simple work (browsing, YouTube, MS Office, online classes)
+    </label>
+    <label class="option-label">
+      <input type="radio" name="use" value="office">
+      Office work / coding / study projects
+    </label>
+    <label class="option-label">
+      <input type="radio" name="use" value="creator">
+      Photo / video editing, graphic design
+    </label>
+    <label class="option-label">
+      <input type="radio" name="use" value="gaming">
+      Gaming and heavy work
+    </label>
   </div>
+
+  <!-- Q2: portability -->
+  <div class="question">
+    <h3>2. Will you carry the laptop outside your home (college, office, travel)?</h3>
+    <label class="option-label">
+      <input type="radio" name="carry" value="daily" required>
+      Yes, almost every day
+    </label>
+    <label class="option-label">
+      <input type="radio" name="carry" value="sometimes">
+      Sometimes
+    </label>
+    <label class="option-label">
+      <input type="radio" name="carry" value="rarely">
+      Rarely or almost never
+    </label>
+  </div>
+
+  <!-- Q3: battery -->
+  <div class="question">
+    <h3>3. Without charging, how many hours do you want it to run in a day?</h3>
+    <label class="option-label">
+      <input type="radio" name="battery" value="short" required>
+      1–3 hours is enough
+    </label>
+    <label class="option-label">
+      <input type="radio" name="battery" value="medium">
+      Around 4–6 hours
+    </label>
+    <label class="option-label">
+      <input type="radio" name="battery" value="long">
+      7+ hours, I want long battery
+    </label>
+  </div>
+
+  <!-- Q4: budget -->
+  <div class="question">
+    <h3>4. What is your budget range?</h3>
+    <label class="option-label">
+      <input type="radio" name="budget" value="low" required>
+      Low budget
+    </label>
+    <label class="option-label">
+      <input type="radio" name="budget" value="medium">
+      Medium budget
+    </label>
+    <label class="option-label">
+      <input type="radio" name="budget" value="high">
+      High budget, I can spend more for good performance
+    </label>
+  </div>
+
+  <!-- Q5: screen preference -->
+  <div class="question">
+    <h3>5. What do you prefer more?</h3>
+    <label class="option-label">
+      <input type="radio" name="screen" value="small" required>
+      Easy to carry (13–14 inch)
+    </label>
+    <label class="option-label">
+      <input type="radio" name="screen" value="big">
+      Bigger screen (15–16 inch)
+    </label>
+    <label class="option-label">
+      <input type="radio" name="screen" value="any">
+      Any size is fine for me
+    </label>
+  </div>
+
+  <button type="button" onclick="getRecommendation()">Get my laptop suggestion</button>
+</form>
+
+<div id="result" class="hidden">
+  <h2>Your laptop summary</h2>
+  <p id="summaryText"></p>
+  <h3>Suggested laptop type</h3>
+  <p id="specText"></p>
+  <h3>Example laptop link</h3>
+  <p id="linkText"></p>
+</div>
+
+<script>
+function getRecommendation() {
+  const form = document.getElementById('quizForm');
+
+  // Make sure all questions answered
+  const requiredNames = ["use", "carry", "battery", "budget", "screen"];
+  for (let name of requiredNames) {
+    const checked = form.querySelector('input[name="' + name + '"]:checked');
+    if (!checked) {
+      alert("Please answer all questions.");
+      return;
+    }
+  }
+
+  const use = form.querySelector('input[name="use"]:checked').value;
+  const carry = form.querySelector('input[name="carry"]:checked').value;
+  const battery = form.querySelector('input[name="battery"]:checked').value;
+  const budget = form.querySelector('input[name="budget"]:checked').value;
+  const screen = form.querySelector('input[name="screen"]:checked').value;
+
+  // Build a simple natural summary
+  let summaryParts = [];
+
+  // Use summary
+  if (use === "basic") {
+    summaryParts.push("You mainly want a laptop for simple daily work like browsing, videos and basic office tasks.");
+  } else if (use === "office") {
+    summaryParts.push("You will use the laptop for office work, coding or study projects.");
+  } else if (use === "creator") {
+    summaryParts.push("You plan to do photo or video editing and other creative work.");
+  } else if (use === "gaming") {
+    summaryParts.push("You want to play games or do other heavy work on the laptop.");
+  }
+
+  // Portability summary
+  if (carry === "daily") {
+    summaryParts.push("You will carry the laptop almost every day, so it should be light and easy to carry.");
+  } else if (carry === "sometimes") {
+    summaryParts.push("You will carry the laptop sometimes, so medium weight is okay.");
+  } else {
+    summaryParts.push("You will rarely carry the laptop outside, so weight is not a big problem.");
+  }
+
+  // Battery summary
+  if (battery === "long") {
+    summaryParts.push("You want long battery life for many hours away from charging.");
+  } else if (battery === "medium") {
+    summaryParts.push("You need decent battery life for normal daily use.");
+  } else {
+    summaryParts.push("Battery life is not your main concern.");
+  }
+
+  // Budget summary
+  if (budget === "low") {
+    summaryParts.push("You have a low budget and want good value for money.");
+  } else if (budget === "medium") {
+    summaryParts.push("You have a medium budget and want a balance of price and performance.");
+  } else {
+    summaryParts.push("You are ready to pay more for better performance and features.");
+  }
+
+  // Screen summary
+  if (screen === "small") {
+    summaryParts.push("You prefer a smaller and lighter laptop size, around 13–14 inches.");
+  } else if (screen === "big") {
+    summaryParts.push("You prefer a bigger screen, around 15–16 inches, for comfortable viewing.");
+  } else {
+    summaryParts.push("Any screen size is fine for you.");
+  }
+
+  const summaryText = summaryParts.join(" ");
+
+  // Now decide specs + example link
+  let specText = "";
+  let linkHtml = "";
+
+  // Default values
+  let ram = "8 GB RAM";
+  let storage = "256 GB SSD";
+  let gpu = "integrated graphics";
+  let size = (screen === "small") ? "14 inch" : (screen === "big" ? "15.6 inch" : "14–15.6 inch");
+
+  // Adjust by use
+  if (use === "office") {
+    ram = "16 GB RAM";
+    storage = "512 GB SSD";
+  } else if (use === "creator" || use === "gaming") {
+    ram = "16 GB or 32 GB RAM";
+    storage = "512 GB or 1 TB SSD";
+    gpu = "dedicated graphics card";
+  }
+
+  // Adjust by budget (simple logic)
+  if (budget === "low") {
+    if (use === "basic") {
+      ram = "8 GB RAM";
+      storage = "256 GB SSD or more";
+    }
+  } else if (budget === "high") {
+    if (use === "basic" || use === "office") {
+      ram = "16 GB RAM";
+      storage = "512 GB SSD";
+    }
+  }
+
+  // Portability influence
+  let weightNote = "";
+  if (carry === "daily") {
+    weightNote = "Try to keep the weight under about 1.5–1.6 kg for easy daily carrying.";
+  } else if (carry === "sometimes") {
+    weightNote = "Weight can be medium; up to around 1.8–2.0 kg is still okay.";
+  } else {
+    weightNote = "Weight is less important, you can also consider slightly heavier performance laptops.";
+  }
+
+  specText =
+    "A good match for you would be a " +
+    size + " laptop with " + ram + ", " + storage +
+    ", and " + gpu + ". " + weightNote +
+    " Also look for a battery that can give at least " +
+    (battery === "long" ? "7–8+ hours" : battery === "medium" ? "4–6 hours" : "3–4 hours") +
+    " of real use.";
+
+  // Example product suggestion (CHANGE THIS LINK to your own shop / Amazon / Flipkart)
+  if (use === "basic" && budget === "low") {
+    linkHtml =
+      'You can look for an affordable 14-inch student or everyday use laptop, for example: ' +
+      '<a href="https://www.amazon.in/s?k=14+inch+laptop+8gb+ram+256gb+ssd" target="_blank">See options on Amazon</a>.';
+  } else if (use === "office") {
+    linkHtml =
+      'You can search for 14–15.6 inch office / business laptops with 16 GB RAM, for example: ' +
+      '<a href="https://www.amazon.in/s?k=16gb+ram+512gb+ssd+laptop" target="_blank">See office laptops</a>.';
+  } else if (use === "creator") {
+    linkHtml =
+      'You can search for creator / content laptops with dedicated graphics, for example: ' +
+      '<a href="https://www.amazon.in/s?k=creator+laptop+16gb+ram+512gb+ssd" target="_blank">See creator laptops</a>.';
+  } else if (use === "gaming") {
+    linkHtml =
+      'You can search for gaming laptops with dedicated GPU, for example: ' +
+      '<a href="https://www.amazon.in/s?k=gaming+laptop+16gb+ram+512gb+ssd" target="_blank">See gaming laptops</a>.';
+  } else {
+    linkHtml =
+      'You can browse laptops matching these specs on your favourite shopping site.';
+  }
+
+  document.getElementById('summaryText').innerText = summaryText;
+  document.getElementById('specText').innerText = specText;
+  document.getElementById('linkText').innerHTML = linkHtml;
+
+  document.getElementById('result').classList.remove('hidden');
+}
+</script>
+
 </body>
 </html>
