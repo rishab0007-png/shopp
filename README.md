@@ -24,27 +24,47 @@
     .bg-layer {
       position: fixed;
       inset: 0;
-      z-index: -2;
+      z-index: -3;
       transition: background 0.8s ease-in-out;
     }
 
-    .bg-step-1 { background: radial-gradient(circle at top, #0ea5e9 0, #020617 55%); }
-    .bg-step-2 { background: radial-gradient(circle at top, #22c55e 0, #020617 55%); }
-    .bg-step-3 { background: radial-gradient(circle at top, #eab308 0, #020617 55%); }
-    .bg-step-4 { background: radial-gradient(circle at top, #a855f7 0, #020617 55%); }
-    .bg-step-5 { background: radial-gradient(circle at top, #f97316 0, #020617 55%); }
-    .bg-step-6 { background: radial-gradient(circle at top, #06b6d4 0, #020617 55%); }
-    .bg-step-7 { background: radial-gradient(circle at top, #ec4899 0, #020617 55%); }
-    .bg-step-8 { background: radial-gradient(circle at top, #facc15 0, #020617 55%); }
-    .bg-step-9 { background: radial-gradient(circle at top, #22c55e 0, #020617 55%); }
+    /* Different color moods per step, plus a slight pattern feeling */
+    .bg-step-1  { background: radial-gradient(circle at top, #0ea5e9 0, #020617 55%); }
+    .bg-step-2  { background: radial-gradient(circle at top, #22c55e 0, #020617 55%); }
+    .bg-step-3  { background: radial-gradient(circle at top, #eab308 0, #020617 55%); }
+    .bg-step-4  { background: radial-gradient(circle at top, #a855f7 0, #020617 55%); }
+    .bg-step-5  { background: radial-gradient(circle at top, #f97316 0, #020617 55%); }
+    .bg-step-6  { background: radial-gradient(circle at top, #06b6d4 0, #020617 55%); }
+    .bg-step-7  { background: radial-gradient(circle at top, #ec4899 0, #020617 55%); }
+    .bg-step-8  { background: radial-gradient(circle at top, #facc15 0, #020617 55%); }
+    .bg-step-9  { background: radial-gradient(circle at top, #22c55e 0, #020617 55%); }
     .bg-step-10 { background: radial-gradient(circle at top, #3b82f6 0, #020617 55%); }
     .bg-step-11 { background: radial-gradient(circle at top, #f97316 0, #020617 55%); }
-    .bg-step-12 { background: radial-gradient(circle at top, #a855f7 0, #020617 55%); }
 
     .overlay-gradient {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at bottom, rgba(15,23,42,0.9), rgba(15,23,42,0.95));
+      background:
+        radial-gradient(circle at top left, rgba(15,23,42,0.2), transparent 60%),
+        radial-gradient(circle at bottom, rgba(15,23,42,0.95), rgba(15,23,42,0.98));
+      z-index: -2;
+    }
+
+    /* Large abstract laptop-like glow in background */
+    .bg-laptop-shape {
+      position: fixed;
+      width: 520px;
+      height: 320px;
+      border-radius: 32px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,64,175,0.6));
+      box-shadow:
+        0 40px 80px rgba(15,23,42,0.9),
+        0 0 80px rgba(56,189,248,0.5);
+      bottom: -120px;
+      right: -80px;
+      transform: rotate(-6deg);
+      opacity: 0.35;
       z-index: -1;
     }
 
@@ -56,7 +76,7 @@
 
     .assistant-card {
       position: relative;
-      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.9));
+      background: linear-gradient(135deg, rgba(15,23,42,0.97), rgba(15,23,42,0.92));
       border-radius: 24px;
       padding: 28px 26px 24px;
       border: 1px solid rgba(148,163,184,0.35);
@@ -108,10 +128,30 @@
       white-space: nowrap;
     }
 
+    /* Small cinematic icon/text in corner related to question */
+    .question-visual {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.4);
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #e5e7eb;
+      box-shadow: 0 8px 18px rgba(15,23,42,0.9);
+    }
+    .question-visual span.icon {
+      font-size: 1.05rem;
+    }
+
     .question-wrapper {
       position: relative;
       min-height: 220px;
-      margin-top: 6px;
+      margin-top: 10px;
       overflow: hidden;
     }
 
@@ -269,6 +309,9 @@
       h1 {
         font-size: 1.25rem;
       }
+      .question-visual {
+        display: none; /* hide small-icon bar on very small screens if needed */
+      }
     }
   </style>
 </head>
@@ -276,6 +319,7 @@
 
 <div class="bg-layer bg-step-1" id="bgLayer"></div>
 <div class="overlay-gradient"></div>
+<div class="bg-laptop-shape"></div>
 
 <div class="container">
   <div class="assistant-card">
@@ -285,6 +329,12 @@
         <p>Answer step by step, get a smart summary and laptops from Reliance Digital.</p>
       </div>
       <div class="step-indicator" id="stepIndicator">Step 1 of 11</div>
+    </div>
+
+    <!-- Cinematic corner visual reflecting question topic -->
+    <div class="question-visual" id="questionVisual">
+      <span class="icon">💻</span>
+      <span class="text">Main laptop usage</span>
     </div>
 
     <form id="quizForm">
@@ -497,14 +547,10 @@
       </div>
 
       <div class="nav-row">
-        <div class="progress-dots" id="progressDots">
-          <!-- dots are created by JS -->
-        </div>
+        <div class="progress-dots" id="progressDots"></div>
         <div class="nav-buttons">
           <button type="button" class="btn-secondary" id="prevBtn">Back</button>
-          <button type="button" class="btn-primary" id="nextBtn">
-            Next
-          </button>
+          <button type="button" class="btn-primary" id="nextBtn">Next</button>
         </div>
       </div>
     </form>
@@ -531,6 +577,22 @@ const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 const progressDotsContainer = document.getElementById('progressDots');
 const resultBlock = document.getElementById('result');
+const questionVisual = document.getElementById('questionVisual');
+
+// Small label + icon text for each step
+const visualTexts = {
+  1: { icon: '💻', text: 'Main laptop usage' },
+  2: { icon: '🎒', text: 'Carrying & weight' },
+  3: { icon: '🔋', text: 'Battery backup' },
+  4: { icon: '💰', text: 'Budget range' },
+  5: { icon: '🖥️', text: 'Screen size & comfort' },
+  6: { icon: '🏷️', text: 'Brand preference' },
+  7: { icon: '💾', text: 'Storage & files' },
+  8: { icon: '📆', text: 'How many years' },
+  9: { icon: '⌨️', text: 'Typing & keyboard' },
+ 10: { icon: '🔌', text: 'Ports & connections' },
+ 11: { icon: '📹', text: 'Online meetings' }
+};
 
 // Create progress dots
 for (let i = 1; i <= totalSteps; i++) {
@@ -540,27 +602,32 @@ for (let i = 1; i <= totalSteps; i++) {
   progressDotsContainer.appendChild(dot);
 }
 
+function updateVisual() {
+  const data = visualTexts[currentStep];
+  if (!data) return;
+  questionVisual.querySelector('.icon').textContent = data.icon;
+  questionVisual.querySelector('.text').textContent = data.text;
+}
+
 function updateUI() {
   questions.forEach(q => {
     const step = Number(q.dataset.step);
     q.classList.toggle('active', step === currentStep);
   });
 
-  // Update step text
   stepIndicator.textContent = `Step ${currentStep} of ${totalSteps}`;
 
-  // Update buttons
   prevBtn.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
   nextBtn.textContent = currentStep === totalSteps ? 'Get suggestion' : 'Next';
 
-  // Cinematic background change
   bgLayer.className = 'bg-layer bg-step-' + currentStep;
 
-  // Progress dots
   document.querySelectorAll('.dot').forEach(dot => {
     const step = Number(dot.dataset.step);
     dot.classList.toggle('active', step === currentStep);
   });
+
+  updateVisual();
 }
 
 function validateCurrentStep() {
@@ -588,12 +655,14 @@ nextBtn.addEventListener('click', () => {
     currentStep++;
     updateUI();
   } else {
-    // Last step -> calculate result
     getRecommendation();
   }
 });
 
-// Main logic is same as previous version
+// Initial
+updateVisual();
+
+// ===== Recommendation logic (same as earlier) =====
 function getRecommendation() {
   const form = document.getElementById('quizForm');
 
@@ -808,7 +877,6 @@ function getRecommendation() {
   document.getElementById('linkText').innerHTML = linkHtml;
 
   resultBlock.classList.remove('hidden');
-  // Smooth scroll to result inside card (for small screens)
   resultBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
