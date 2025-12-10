@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 600px;
+      max-width: 700px;
       margin: 20px auto;
       padding: 10px;
     }
@@ -164,6 +164,83 @@
     </label>
   </div>
 
+  <!-- Q7: storage/file size -->
+  <div class="question">
+    <h3>7. Do you store big files like games, videos or many photos?</h3>
+    <label class="option-label">
+      <input type="radio" name="storageUse" value="heavy" required>
+      Yes, many big files
+    </label>
+    <label class="option-label">
+      <input type="radio" name="storageUse" value="medium">
+      Some big files
+    </label>
+    <label class="option-label">
+      <input type="radio" name="storageUse" value="light">
+      No, only small documents and light files
+    </label>
+  </div>
+
+  <!-- Q8: years of use -->
+  <div class="question">
+    <h3>8. For how many years do you want this laptop to feel good and usable?</h3>
+    <label class="option-label">
+      <input type="radio" name="years" value="short" required>
+      Around 1–2 years is okay
+    </label>
+    <label class="option-label">
+      <input type="radio" name="years" value="medium">
+      Around 3–4 years
+    </label>
+    <label class="option-label">
+      <input type="radio" name="years" value="long">
+      5+ years, I want to keep it long
+    </label>
+  </div>
+
+  <!-- Q9: typing -->
+  <div class="question">
+    <h3>9. Do you type a lot (coding, writing, office work)?</h3>
+    <label class="option-label">
+      <input type="radio" name="typing" value="heavy" required>
+      Yes, I type a lot
+    </label>
+    <label class="option-label">
+      <input type="radio" name="typing" value="normal">
+      Normal typing only
+    </label>
+  </div>
+
+  <!-- Q10: ports -->
+  <div class="question">
+    <h3>10. Do you connect many devices (monitor, projector, LAN cable, USB devices)?</h3>
+    <label class="option-label">
+      <input type="radio" name="ports" value="many" required>
+      Yes, I need many ports
+    </label>
+    <label class="option-label">
+      <input type="radio" name="ports" value="normal">
+      Normal ports are enough
+    </label>
+  </div>
+
+  <!-- Q11: webcam / online meetings -->
+  <div class="question">
+    <h3>11. Do you attend many online classes or video meetings?</h3>
+    <label class="option-label">
+      <input type="radio" name="webcam" value="often" required>
+      Yes, very often
+    </label>
+    <label class="option-label">
+      <input type="radio" name="webcam" value="sometimes">
+      Sometimes
+    </label>
+    <label class="option-label">
+      <input type="radio" name="webcam" value="rarely">
+      Rarely
+    </label>
+  </div>
+
   <button type="button" onclick="getRecommendation()">Get my laptop suggestion</button>
 </form>
 
@@ -181,7 +258,10 @@ function getRecommendation() {
   const form = document.getElementById('quizForm');
 
   // Make sure all questions answered
-  const requiredNames = ["use", "carry", "battery", "budget", "screen", "brand"];
+  const requiredNames = [
+    "use", "carry", "battery", "budget", "screen", "brand",
+    "storageUse", "years", "typing", "ports", "webcam"
+  ];
   for (let name of requiredNames) {
     const checked = form.querySelector('input[name="' + name + '"]:checked');
     if (!checked) {
@@ -190,12 +270,17 @@ function getRecommendation() {
     }
   }
 
-  const use = form.querySelector('input[name="use"]:checked').value;
-  const carry = form.querySelector('input[name="carry"]:checked').value;
-  const battery = form.querySelector('input[name="battery"]:checked').value;
-  const budget = form.querySelector('input[name="budget"]:checked').value;
-  const screen = form.querySelector('input[name="screen"]:checked').value;
-  const brand = form.querySelector('input[name="brand"]:checked').value;
+  const use        = form.querySelector('input[name="use"]:checked').value;
+  const carry      = form.querySelector('input[name="carry"]:checked').value;
+  const battery    = form.querySelector('input[name="battery"]:checked').value;
+  const budget     = form.querySelector('input[name="budget"]:checked').value;
+  const screen     = form.querySelector('input[name="screen"]:checked').value;
+  const brand      = form.querySelector('input[name="brand"]:checked').value;
+  const storageUse = form.querySelector('input[name="storageUse"]:checked').value;
+  const years      = form.querySelector('input[name="years"]:checked').value;
+  const typing     = form.querySelector('input[name="typing"]:checked').value;
+  const ports      = form.querySelector('input[name="ports"]:checked').value;
+  const webcam     = form.querySelector('input[name="webcam"]:checked').value;
 
   // Build a simple natural summary
   let summaryParts = [];
@@ -254,14 +339,56 @@ function getRecommendation() {
     summaryParts.push("You prefer the brand: " + brand.toUpperCase() + ".");
   }
 
+  // Storage usage summary
+  if (storageUse === "heavy") {
+    summaryParts.push("You store many big files like games, videos or a lot of photos.");
+  } else if (storageUse === "medium") {
+    summaryParts.push("You store some big files, but not too many.");
+  } else {
+    summaryParts.push("You mostly store small documents and light files.");
+  }
+
+  // Years of use summary
+  if (years === "short") {
+    summaryParts.push("You are okay if the laptop is good for around 1–2 years.");
+  } else if (years === "medium") {
+    summaryParts.push("You want the laptop to feel good for around 3–4 years.");
+  } else {
+    summaryParts.push("You want to keep this laptop for 5 or more years.");
+  }
+
+  // Typing summary
+  if (typing === "heavy") {
+    summaryParts.push("You type a lot, so a comfortable keyboard is important for you.");
+  } else {
+    summaryParts.push("You do normal typing, nothing very heavy.");
+  }
+
+  // Ports summary
+  if (ports === "many") {
+    summaryParts.push("You connect many devices, so you need enough ports (HDMI, USB, maybe LAN).");
+  } else {
+    summaryParts.push("Normal ports are enough for your use.");
+  }
+
+  // Webcam summary
+  if (webcam === "often") {
+    summaryParts.push("You attend many online classes or video meetings, so webcam and mic quality matters.");
+  } else if (webcam === "sometimes") {
+    summaryParts.push("You sometimes attend online meetings or classes.");
+  } else {
+    summaryParts.push("You rarely use the laptop for online video calls.");
+  }
+
   const summaryText = summaryParts.join(" ");
 
   // Decide specs
   let ram = "8 GB RAM";
   let storage = "256 GB SSD";
   let gpu = "integrated graphics";
-  let size = (screen === "small") ? "14 inch" : (screen === "big" ? "15.6 inch" : "14–15.6 inch");
+  let sizeText = (screen === "small") ? "14 inch" : (screen === "big" ? "15.6 inch" : "14–15.6 inch");
 
+  // Base on use
   if (use === "office") {
     ram = "16 GB RAM";
     storage = "512 GB SSD";
@@ -271,16 +398,24 @@ function getRecommendation() {
     gpu = "dedicated graphics card";
   }
 
-  if (budget === "low") {
-    if (use === "basic") {
-      ram = "8 GB RAM";
-      storage = "256 GB SSD or more";
-    }
-  } else if (budget === "high") {
-    if (use === "basic" || use === "office") {
+  // Adjust by storage usage
+  if (storageUse === "heavy") {
+    storage = "512 GB or 1 TB SSD";
+  } else if (storageUse === "medium" && storage === "256 GB SSD") {
+    storage = "512 GB SSD";
+  }
+
+  // Adjust by years expectation
+  if (years === "medium" || years === "long") {
+    if (ram === "8 GB RAM") {
       ram = "16 GB RAM";
-      storage = "512 GB SSD";
     }
+  }
+
+  // Budget influence (kept simple)
+  if (budget === "low" && use === "basic" && storageUse !== "heavy") {
+    ram = "8 GB RAM";
+    storage = "256 GB SSD or more";
   }
 
   let weightNote = "";
@@ -292,13 +427,26 @@ function getRecommendation() {
     weightNote = "Weight is less important, you can also consider slightly heavier performance laptops.";
   }
 
+  // Extra notes
+  let extraNotes = [];
+  if (typing === "heavy") {
+    extraNotes.push("Look for a good quality, comfortable keyboard (preferably backlit).");
+  }
+  if (ports === "many") {
+    extraNotes.push("Make sure the laptop has enough ports (HDMI, multiple USB ports, maybe LAN).");
+  }
+  if (webcam === "often") {
+    extraNotes.push("Give importance to a good webcam and microphone for clear online meetings.");
+  }
+
   const specText =
     "A good match for you would be a " +
-    size + " laptop with " + ram + ", " + storage +
+    sizeText + " laptop with " + ram + ", " + storage +
     ", and " + gpu + ". " + weightNote +
     " Also look for a battery that can give at least " +
     (battery === "long" ? "7–8+ hours" : battery === "medium" ? "4–6 hours" : "3–4 hours") +
-    " of real use.";
+    " of real use." +
+    (extraNotes.length ? " " + extraNotes.join(" ") : "");
 
   // ---- Reliance Digital URL (simplified search) ----
   let baseUrl = "https://www.reliancedigital.in/search?q=";
@@ -310,7 +458,7 @@ function getRecommendation() {
   }
   qParts.push("laptop");
 
-  // simple type hints
+  // type hints
   if (use === "gaming") qParts.push("gaming");
   if (use === "creator") qParts.push("creator");
 
@@ -332,7 +480,6 @@ function getRecommendation() {
     qParts.push("256gb");
   }
 
-  // Build query string
   const query = encodeURIComponent(qParts.join(" "));
   const finalUrl = baseUrl + query;
 
