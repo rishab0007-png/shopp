@@ -16,24 +16,23 @@
       align-items: center;
       justify-content: center;
       color: #f5f5f5;
-      background: #020617;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
       overflow: hidden;
     }
 
-    /* MAIN BLUE ANIMATED BACKGROUND */
+    /* Background layer that we animate per step */
     .bg-layer {
       position: fixed;
       inset: 0;
-      z-index: -4;
-      background: radial-gradient(circle at top, #0f172a 0, #020617 55%);
-      overflow: hidden;
+      z-index: -3;
+      transition: background 0.8s ease-in-out;
     }
 
-    /* Base gradient shifts per step */
+    /* Different color moods per step, plus a slight pattern feeling */
     .bg-step-1  { background: radial-gradient(circle at top, #0ea5e9 0, #020617 55%); }
     .bg-step-2  { background: radial-gradient(circle at top, #22c55e 0, #020617 55%); }
     .bg-step-3  { background: radial-gradient(circle at top, #eab308 0, #020617 55%); }
-    .bg-step-4  { background: radial-gradient(circle at top, #6366f1 0, #020617 55%); }
+    .bg-step-4  { background: radial-gradient(circle at top, #a855f7 0, #020617 55%); }
     .bg-step-5  { background: radial-gradient(circle at top, #f97316 0, #020617 55%); }
     .bg-step-6  { background: radial-gradient(circle at top, #06b6d4 0, #020617 55%); }
     .bg-step-7  { background: radial-gradient(circle at top, #ec4899 0, #020617 55%); }
@@ -42,93 +41,23 @@
     .bg-step-10 { background: radial-gradient(circle at top, #3b82f6 0, #020617 55%); }
     .bg-step-11 { background: radial-gradient(circle at top, #f97316 0, #020617 55%); }
 
-    /* Floating particles – look like small laptop chips / dots */
-    .particles {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-    .particle {
-      position: absolute;
-      border-radius: 999px;
-      background: rgba(148, 163, 184, 0.15);
-      box-shadow: 0 0 12px rgba(148, 163, 184, 0.4);
-      animation: floatUp 18s linear infinite;
-    }
-    .particle-chip {
-      border-radius: 8px;
-      width: 70px;
-      height: 40px;
-      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(56,189,248,0.6));
-      box-shadow: 0 0 20px rgba(56,189,248,0.7);
-    }
-
-    .particle:nth-child(1) { width: 10px; height: 10px; left: 5%;  animation-duration: 25s; animation-delay: 0s; }
-    .particle:nth-child(2) { width: 14px; height: 14px; left: 20%; animation-duration: 20s; animation-delay: 3s; }
-    .particle:nth-child(3) { width: 8px;  height: 8px;  left: 40%; animation-duration: 18s; animation-delay: 6s; }
-    .particle:nth-child(4) { width: 16px; height: 16px; left: 60%; animation-duration: 22s; animation-delay: 2s; }
-    .particle:nth-child(5) { width: 12px; height: 12px; left: 80%; animation-duration: 19s; animation-delay: 4s; }
-
-    /* One bigger "laptop chip" */
-    .particle-chip {
-      top: 110%;
-      left: 70%;
-      animation: floatChip 26s linear infinite;
-    }
-
-    @keyframes floatUp {
-      0% {
-        transform: translateY(40vh) translateX(0);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      50% {
-        transform: translateY(-40vh) translateX(20px);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-80vh) translateX(-10px);
-        opacity: 0;
-      }
-    }
-
-    @keyframes floatChip {
-      0% {
-        transform: translateY(60vh) translateX(0) rotate(-8deg);
-        opacity: 0;
-      }
-      15% {
-        opacity: 0.7;
-      }
-      55% {
-        transform: translateY(-10vh) translateX(-30px) rotate(4deg);
-        opacity: 0.85;
-      }
-      100% {
-        transform: translateY(-60vh) translateX(10px) rotate(0deg);
-        opacity: 0;
-      }
-    }
-
     .overlay-gradient {
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at top left, rgba(15,23,42,0.1), transparent 60%),
-        radial-gradient(circle at bottom, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
+        radial-gradient(circle at top left, rgba(15,23,42,0.2), transparent 60%),
+        radial-gradient(circle at bottom, rgba(15,23,42,0.95), rgba(15,23,42,0.98));
       z-index: -2;
     }
 
+    /* Large abstract laptop-like glow in background */
     .bg-laptop-shape {
       position: fixed;
       width: 520px;
       height: 320px;
       border-radius: 32px;
       border: 1px solid rgba(148,163,184,0.25);
-      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,64,175,0.7));
+      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,64,175,0.6));
       box-shadow:
         0 40px 80px rgba(15,23,42,0.9),
         0 0 80px rgba(56,189,248,0.5);
@@ -162,7 +91,7 @@
       position: absolute;
       width: 320px;
       height: 320px;
-      background: radial-gradient(circle, rgba(56,189,248,0.2), transparent 60%);
+      background: radial-gradient(circle, rgba(56,189,248,0.18), transparent 60%);
       top: -120px;
       right: -60px;
       opacity: 0.7;
@@ -199,13 +128,14 @@
       white-space: nowrap;
     }
 
+    /* Small cinematic icon/text in corner related to question */
     .question-visual {
       position: absolute;
       top: 20px;
       right: 22px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.85);
+      background: rgba(15,23,42,0.8);
       border: 1px solid rgba(148,163,184,0.4);
       font-size: 0.8rem;
       display: inline-flex;
@@ -380,23 +310,14 @@
         font-size: 1.25rem;
       }
       .question-visual {
-        display: none;
+        display: none; /* hide small-icon bar on very small screens if needed */
       }
     }
   </style>
 </head>
 <body>
 
-<div class="bg-layer bg-step-1" id="bgLayer">
-  <div class="particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle particle-chip"></div>
-  </div>
-</div>
+<div class="bg-layer bg-step-1" id="bgLayer"></div>
 <div class="overlay-gradient"></div>
 <div class="bg-laptop-shape"></div>
 
@@ -410,6 +331,7 @@
       <div class="step-indicator" id="stepIndicator">Step 1 of 11</div>
     </div>
 
+    <!-- Cinematic corner visual reflecting question topic -->
     <div class="question-visual" id="questionVisual">
       <span class="icon">💻</span>
       <span class="text">Main laptop usage</span>
@@ -417,9 +339,211 @@
 
     <form id="quizForm">
       <div class="question-wrapper">
-        <!-- All 11 questions are exactly as in previous version (omitted here for brevity) -->
-        <!-- REUSE THE SAME QUESTION HTML FROM THE LAST ANSWER -->
-        <!-- For space: copy from your previous working version's <div class="question-wrapper"> block -->
+        <!-- Q1 -->
+        <div class="question active" data-step="1">
+          <h3>1. What will you mostly do on the laptop?</h3>
+          <p class="question-sub">This helps to decide power and graphics.</p>
+          <label class="option-label">
+            <input type="radio" name="use" value="basic" required>
+            Simple work (browsing, YouTube, MS Office, online classes)
+          </label>
+          <label class="option-label">
+            <input type="radio" name="use" value="office">
+            Office work / coding / study projects
+          </label>
+          <label class="option-label">
+            <input type="radio" name="use" value="creator">
+            Photo / video editing, graphic design
+          </label>
+          <label class="option-label">
+            <input type="radio" name="use" value="gaming">
+            Gaming and heavy work
+          </label>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question" data-step="2">
+          <h3>2. Will you carry the laptop outside your home?</h3>
+          <p class="question-sub">College, office, travel, daily commute, etc.</p>
+          <label class="option-label">
+            <input type="radio" name="carry" value="daily" required>
+            Yes, almost every day
+          </label>
+          <label class="option-label">
+            <input type="radio" name="carry" value="sometimes">
+            Sometimes
+          </label>
+          <label class="option-label">
+            <input type="radio" name="carry" value="rarely">
+            Rarely or almost never
+          </label>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question" data-step="3">
+          <h3>3. Without charging, how many hours do you want it to run?</h3>
+          <p class="question-sub">Real daily use, not company claim.</p>
+          <label class="option-label">
+            <input type="radio" name="battery" value="short" required>
+            1–3 hours is enough
+          </label>
+          <label class="option-label">
+            <input type="radio" name="battery" value="medium">
+            Around 4–6 hours
+          </label>
+          <label class="option-label">
+            <input type="radio" name="battery" value="long">
+            7+ hours, I want long battery
+          </label>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question" data-step="4">
+          <h3>4. What is your budget range?</h3>
+          <p class="question-sub">Just an approximate idea.</p>
+          <label class="option-label">
+            <input type="radio" name="budget" value="low" required>
+            Low budget
+          </label>
+          <label class="option-label">
+            <input type="radio" name="budget" value="medium">
+            Medium budget
+          </label>
+          <label class="option-label">
+            <input type="radio" name="budget" value="high">
+            High budget, I can spend more for performance
+          </label>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question" data-step="5">
+          <h3>5. What do you prefer more?</h3>
+          <p class="question-sub">Size changes weight and comfort.</p>
+          <label class="option-label">
+            <input type="radio" name="screen" value="small" required>
+            Easy to carry (13–14 inch)
+          </label>
+          <label class="option-label">
+            <input type="radio" name="screen" value="big">
+            Bigger screen (15–16 inch)
+          </label>
+          <label class="option-label">
+            <input type="radio" name="screen" value="any">
+            Any size is fine for me
+          </label>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question" data-step="6">
+          <h3>6. Do you want a specific laptop brand?</h3>
+          <p class="question-sub">We will still focus on specs first.</p>
+          <label class="option-label">
+            <input type="radio" name="brand" value="any" required>
+            Any good brand is okay
+          </label>
+          <label class="option-label">
+            <input type="radio" name="brand" value="hp">
+            I prefer HP
+          </label>
+          <label class="option-label">
+            <input type="radio" name="brand" value="dell">
+            I prefer Dell
+          </label>
+          <label class="option-label">
+            <input type="radio" name="brand" value="lenovo">
+            I prefer Lenovo
+          </label>
+          <label class="option-label">
+            <input type="radio" name="brand" value="asus">
+            I prefer ASUS
+          </label>
+          <label class="option-label">
+            <input type="radio" name="brand" value="acer">
+            I prefer Acer
+          </label>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question" data-step="7">
+          <h3>7. Do you store big files like games, videos or many photos?</h3>
+          <p class="question-sub">This controls SSD size.</p>
+          <label class="option-label">
+            <input type="radio" name="storageUse" value="heavy" required>
+            Yes, many big files
+          </label>
+          <label class="option-label">
+            <input type="radio" name="storageUse" value="medium">
+            Some big files
+          </label>
+          <label class="option-label">
+            <input type="radio" name="storageUse" value="light">
+            No, only small documents and light files
+          </label>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question" data-step="8">
+          <h3>8. For how many years do you want this laptop to feel good?</h3>
+          <p class="question-sub">Longer years need stronger hardware.</p>
+          <label class="option-label">
+            <input type="radio" name="years" value="short" required>
+            Around 1–2 years is okay
+          </label>
+          <label class="option-label">
+            <input type="radio" name="years" value="medium">
+            Around 3–4 years
+          </label>
+          <label class="option-label">
+            <input type="radio" name="years" value="long">
+            5+ years, I want to keep it long
+          </label>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question" data-step="9">
+          <h3>9. Do you type a lot (coding, writing, office work)?</h3>
+          <p class="question-sub">Helps to decide keyboard importance.</p>
+          <label class="option-label">
+            <input type="radio" name="typing" value="heavy" required>
+            Yes, I type a lot
+          </label>
+          <label class="option-label">
+            <input type="radio" name="typing" value="normal">
+            Normal typing only
+          </label>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question" data-step="10">
+          <h3>10. Do you connect many devices (monitor, projector, LAN, USB)?</h3>
+          <p class="question-sub">Ports matter for office and setup.</p>
+          <label class="option-label">
+            <input type="radio" name="ports" value="many" required>
+            Yes, I need many ports
+          </label>
+          <label class="option-label">
+            <input type="radio" name="ports" value="normal">
+            Normal ports are enough
+          </label>
+        </div>
+
+        <!-- Q11 -->
+        <div class="question" data-step="11">
+          <h3>11. Do you attend many online classes or video meetings?</h3>
+          <p class="question-sub">This decides webcam and mic importance.</p>
+          <label class="option-label">
+            <input type="radio" name="webcam" value="often" required>
+            Yes, very often
+          </label>
+          <label class="option-label">
+            <input type="radio" name="webcam" value="sometimes">
+            Sometimes
+          </label>
+          <label class="option-label">
+            <input type="radio" name="webcam" value="rarely">
+            Rarely
+          </label>
+        </div>
       </div>
 
       <div class="nav-row">
@@ -455,20 +579,22 @@ const progressDotsContainer = document.getElementById('progressDots');
 const resultBlock = document.getElementById('result');
 const questionVisual = document.getElementById('questionVisual');
 
+// Small label + icon text for each step
 const visualTexts = {
   1: { icon: '💻', text: 'Main laptop usage' },
-  2: { icon: '🎒', text: 'Light vs heavy to carry' },
-  3: { icon: '🔋', text: 'Battery backup needs' },
-  4: { icon: '💰', text: 'Budget comfort zone' },
-  5: { icon: '🖥️', text: 'Screen size preference' },
-  6: { icon: '🏷️', text: 'Brand choice' },
-  7: { icon: '💾', text: 'Storage & big files' },
-  8: { icon: '📆', text: 'How many years to use' },
-  9: { icon: '⌨️', text: 'Typing & keyboard feel' },
+  2: { icon: '🎒', text: 'Carrying & weight' },
+  3: { icon: '🔋', text: 'Battery backup' },
+  4: { icon: '💰', text: 'Budget range' },
+  5: { icon: '🖥️', text: 'Screen size & comfort' },
+  6: { icon: '🏷️', text: 'Brand preference' },
+  7: { icon: '💾', text: 'Storage & files' },
+  8: { icon: '📆', text: 'How many years' },
+  9: { icon: '⌨️', text: 'Typing & keyboard' },
  10: { icon: '🔌', text: 'Ports & connections' },
- 11: { icon: '📹', text: 'Online classes & meetings' }
+ 11: { icon: '📹', text: 'Online meetings' }
 };
 
+// Create progress dots
 for (let i = 1; i <= totalSteps; i++) {
   const dot = document.createElement('div');
   dot.className = 'dot' + (i === 1 ? ' active' : '');
@@ -533,10 +659,226 @@ nextBtn.addEventListener('click', () => {
   }
 });
 
+// Initial
 updateVisual();
 
-/* REUSE YOUR EXISTING getRecommendation() FUNCTION FROM LAST VERSION HERE
-   (the logic with summary, spec, and Reliance Digital link). */
+// ===== Recommendation logic (same as earlier) =====
+function getRecommendation() {
+  const form = document.getElementById('quizForm');
+
+  const requiredNames = [
+    "use", "carry", "battery", "budget", "screen", "brand",
+    "storageUse", "years", "typing", "ports", "webcam"
+  ];
+  for (let name of requiredNames) {
+    const checked = form.querySelector('input[name="' + name + '"]:checked');
+    if (!checked) {
+      alert("Please answer all questions.");
+      return;
+    }
+  }
+
+  const use        = form.querySelector('input[name="use"]:checked').value;
+  const carry      = form.querySelector('input[name="carry"]:checked').value;
+  const battery    = form.querySelector('input[name="battery"]:checked').value;
+  const budget     = form.querySelector('input[name="budget"]:checked').value;
+  const screen     = form.querySelector('input[name="screen"]:checked').value;
+  const brand      = form.querySelector('input[name="brand"]:checked').value;
+  const storageUse = form.querySelector('input[name="storageUse"]:checked').value;
+  const years      = form.querySelector('input[name="years"]:checked').value;
+  const typing     = form.querySelector('input[name="typing"]:checked').value;
+  const ports      = form.querySelector('input[name="ports"]:checked').value;
+  const webcam     = form.querySelector('input[name="webcam"]:checked').value;
+
+  let summaryParts = [];
+
+  if (use === "basic") {
+    summaryParts.push("You mainly want a laptop for simple daily work like browsing, videos and basic office tasks.");
+  } else if (use === "office") {
+    summaryParts.push("You will use the laptop for office work, coding or study projects.");
+  } else if (use === "creator") {
+    summaryParts.push("You plan to do photo or video editing and other creative work.");
+  } else if (use === "gaming") {
+    summaryParts.push("You want to play games or do other heavy work on the laptop.");
+  }
+
+  if (carry === "daily") {
+    summaryParts.push("You will carry the laptop almost every day, so it should be light and easy to carry.");
+  } else if (carry === "sometimes") {
+    summaryParts.push("You will carry the laptop sometimes, so medium weight is okay.");
+  } else {
+    summaryParts.push("You will rarely carry the laptop outside, so weight is not a big problem.");
+  }
+
+  if (battery === "long") {
+    summaryParts.push("You want long battery life for many hours away from charging.");
+  } else if (battery === "medium") {
+    summaryParts.push("You need decent battery life for normal daily use.");
+  } else {
+    summaryParts.push("Battery life is not your main concern.");
+  }
+
+  if (budget === "low") {
+    summaryParts.push("You have a low budget and want good value for money.");
+  } else if (budget === "medium") {
+    summaryParts.push("You have a medium budget and want a balance of price and performance.");
+  } else {
+    summaryParts.push("You are ready to pay more for better performance and features.");
+  }
+
+  if (screen === "small") {
+    summaryParts.push("You prefer a smaller and lighter laptop size, around 13–14 inches.");
+  } else if (screen === "big") {
+    summaryParts.push("You prefer a bigger screen, around 15–16 inches, for comfortable viewing.");
+  } else {
+    summaryParts.push("Any screen size is fine for you.");
+  }
+
+  if (brand === "any") {
+    summaryParts.push("You are open to any good and reliable brand.");
+  } else {
+    summaryParts.push("You prefer the brand: " + brand.toUpperCase() + ".");
+  }
+
+  if (storageUse === "heavy") {
+    summaryParts.push("You store many big files like games, videos or a lot of photos.");
+  } else if (storageUse === "medium") {
+    summaryParts.push("You store some big files, but not too many.");
+  } else {
+    summaryParts.push("You mostly store small documents and light files.");
+  }
+
+  if (years === "short") {
+    summaryParts.push("You are okay if the laptop is good for around 1–2 years.");
+  } else if (years === "medium") {
+    summaryParts.push("You want the laptop to feel good for around 3–4 years.");
+  } else {
+    summaryParts.push("You want to keep this laptop for 5 or more years.");
+  }
+
+  if (typing === "heavy") {
+    summaryParts.push("You type a lot, so a comfortable keyboard is important for you.");
+  } else {
+    summaryParts.push("You do normal typing, nothing very heavy.");
+  }
+
+  if (ports === "many") {
+    summaryParts.push("You connect many devices, so you need enough ports (HDMI, USB, maybe LAN).");
+  } else {
+    summaryParts.push("Normal ports are enough for your use.");
+  }
+
+  if (webcam === "often") {
+    summaryParts.push("You attend many online classes or video meetings, so webcam and mic quality matters.");
+  } else if (webcam === "sometimes") {
+    summaryParts.push("You sometimes attend online meetings or classes.");
+  } else {
+    summaryParts.push("You rarely use the laptop for online video calls.");
+  }
+
+  const summaryText = summaryParts.join(" ");
+
+  let ram = "8 GB RAM";
+  let storage = "256 GB SSD";
+  let gpu = "integrated graphics";
+  let sizeText = (screen === "small") ? "14 inch" : (screen === "big" ? "15.6 inch" : "14–15.6 inch");
+
+  if (use === "office") {
+    ram = "16 GB RAM";
+    storage = "512 GB SSD";
+  } else if (use === "creator" || use === "gaming") {
+    ram = "16 GB or 32 GB RAM";
+    storage = "512 GB or 1 TB SSD";
+    gpu = "dedicated graphics card";
+  }
+
+  if (storageUse === "heavy") {
+    storage = "512 GB or 1 TB SSD";
+  } else if (storageUse === "medium" && storage === "256 GB SSD") {
+    storage = "512 GB SSD";
+  }
+
+  if (years === "medium" || years === "long") {
+    if (ram === "8 GB RAM") {
+      ram = "16 GB RAM";
+    }
+  }
+
+  if (budget === "low" && use === "basic" && storageUse !== "heavy") {
+    ram = "8 GB RAM";
+    storage = "256 GB SSD or more";
+  }
+
+  let weightNote = "";
+  if (carry === "daily") {
+    weightNote = "Try to keep the weight under about 1.5–1.6 kg for easy daily carrying.";
+  } else if (carry === "sometimes") {
+    weightNote = "Weight can be medium; up to around 1.8–2.0 kg is still okay.";
+  } else {
+    weightNote = "Weight is less important, you can also consider slightly heavier performance laptops.";
+  }
+
+  let extraNotes = [];
+  if (typing === "heavy") {
+    extraNotes.push("Look for a good quality, comfortable keyboard (preferably backlit).");
+  }
+  if (ports === "many") {
+    extraNotes.push("Make sure the laptop has enough ports (HDMI, multiple USB ports, maybe LAN).");
+  }
+  if (webcam === "often") {
+    extraNotes.push("Give importance to a good webcam and microphone for clear online meetings.");
+  }
+
+  const specText =
+    "A good match for you would be a " +
+    sizeText + " laptop with " + ram + ", " + storage +
+    ", and " + gpu + ". " + weightNote +
+    " Also look for a battery that can give at least " +
+    (battery === "long" ? "7–8+ hours" : battery === "medium" ? "4–6 hours" : "3–4 hours") +
+    " of real use." +
+    (extraNotes.length ? " " + extraNotes.join(" ") : "");
+
+  let baseUrl = "https://www.reliancedigital.in/search?q=";
+  let qParts = [];
+
+  if (brand !== "any") {
+    qParts.push(brand);
+  }
+  qParts.push("laptop");
+
+  if (use === "gaming") qParts.push("gaming");
+  if (use === "creator") qParts.push("creator");
+
+  if (ram.includes("32")) {
+    qParts.push("32gb");
+  } else if (ram.includes("16")) {
+    qParts.push("16gb");
+  } else {
+    qParts.push("8gb");
+  }
+
+  if (storage.includes("1 TB")) {
+    qParts.push("1tb");
+  } else if (storage.includes("512")) {
+    qParts.push("512gb");
+  } else {
+    qParts.push("256gb");
+  }
+
+  const query = encodeURIComponent(qParts.join(" "));
+  const finalUrl = baseUrl + query;
+
+  const linkHtml =
+    'You can see matching laptops on Reliance Digital here: ' +
+    '<a href="' + finalUrl + '" target="_blank" rel="noopener noreferrer">View laptops on Reliance Digital</a>.';
+
+  document.getElementById('summaryText').innerText = summaryText;
+  document.getElementById('specText').innerText = specText;
+  document.getElementById('linkText').innerHTML = linkHtml;
+
+  resultBlock.classList.remove('hidden');
+  resultBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 </script>
 
 </body>
