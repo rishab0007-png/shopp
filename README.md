@@ -256,17 +256,12 @@ function getRecommendation() {
 
   const summaryText = summaryParts.join(" ");
 
-  // Now decide specs + example link
-  let specText = "";
-  let linkHtml = "";
-
-  // Default values
+  // Decide specs
   let ram = "8 GB RAM";
   let storage = "256 GB SSD";
   let gpu = "integrated graphics";
   let size = (screen === "small") ? "14 inch" : (screen === "big" ? "15.6 inch" : "14–15.6 inch");
 
-  // Adjust by use
   if (use === "office") {
     ram = "16 GB RAM";
     storage = "512 GB SSD";
@@ -276,7 +271,6 @@ function getRecommendation() {
     gpu = "dedicated graphics card";
   }
 
-  // Adjust by budget (simple logic)
   if (budget === "low") {
     if (use === "basic") {
       ram = "8 GB RAM";
@@ -289,7 +283,6 @@ function getRecommendation() {
     }
   }
 
-  // Portability influence
   let weightNote = "";
   if (carry === "daily") {
     weightNote = "Try to keep the weight under about 1.5–1.6 kg for easy daily carrying.";
@@ -299,7 +292,7 @@ function getRecommendation() {
     weightNote = "Weight is less important, you can also consider slightly heavier performance laptops.";
   }
 
-  specText =
+  const specText =
     "A good match for you would be a " +
     size + " laptop with " + ram + ", " + storage +
     ", and " + gpu + ". " + weightNote +
@@ -307,54 +300,45 @@ function getRecommendation() {
     (battery === "long" ? "7–8+ hours" : battery === "medium" ? "4–6 hours" : "3–4 hours") +
     " of real use.";
 
-  // Build brand and spec keywords for Reliance Digital search
+  // ---- Reliance Digital URL (simplified search) ----
   let baseUrl = "https://www.reliancedigital.in/search?q=";
-  let keywords = "";
+  let qParts = [];
 
-  // Add brand
+  // brand
   if (brand !== "any") {
-    keywords += encodeURIComponent(brand + " laptop ");
-  } else {
-    keywords += encodeURIComponent("laptop ");
+    qParts.push(brand);
   }
+  qParts.push("laptop");
 
-  // Add spec hints
-  if (use === "gaming") {
-    keywords += encodeURIComponent("gaming ");
-  } else if (use === "creator") {
-    keywords += encodeURIComponent("creator ");
-  }
+  // simple type hints
+  if (use === "gaming") qParts.push("gaming");
+  if (use === "creator") qParts.push("creator");
 
-  // RAM keywords
+  // RAM hint
   if (ram.includes("32")) {
-    keywords += encodeURIComponent("32gb ram ");
+    qParts.push("32gb");
   } else if (ram.includes("16")) {
-    keywords += encodeURIComponent("16gb ram ");
+    qParts.push("16gb");
   } else {
-    keywords += encodeURIComponent("8gb ram ");
+    qParts.push("8gb");
   }
 
-  // Storage keywords
+  // SSD hint
   if (storage.includes("1 TB")) {
-    keywords += encodeURIComponent("1tb ssd ");
+    qParts.push("1tb");
   } else if (storage.includes("512")) {
-    keywords += encodeURIComponent("512gb ssd ");
+    qParts.push("512gb");
   } else {
-    keywords += encodeURIComponent("256gb ssd ");
+    qParts.push("256gb");
   }
 
-  // Screen size hint
-  if (screen === "small") {
-    keywords += encodeURIComponent("14 inch ");
-  } else if (screen === "big") {
-    keywords += encodeURIComponent("15.6 inch ");
-  }
+  // Build query string
+  const query = encodeURIComponent(qParts.join(" "));
+  const finalUrl = baseUrl + query;
 
-  let finalUrl = baseUrl + keywords;
-
-  linkHtml =
+  const linkHtml =
     'You can see matching laptops on Reliance Digital here: ' +
-    '<a href="' + finalUrl + '" target="_blank">View laptops on Reliance Digital</a>.';
+    '<a href="' + finalUrl + '" target="_blank" rel="noopener noreferrer">View laptops on Reliance Digital</a>.';
 
   document.getElementById('summaryText').innerText = summaryText;
   document.getElementById('specText').innerText = specText;
