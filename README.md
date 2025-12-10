@@ -135,6 +135,35 @@
     </label>
   </div>
 
+  <!-- Q6: brand preference -->
+  <div class="question">
+    <h3>6. Do you want a specific laptop brand?</h3>
+    <label class="option-label">
+      <input type="radio" name="brand" value="any" required>
+      Any good brand is okay
+    </label>
+    <label class="option-label">
+      <input type="radio" name="brand" value="hp">
+      I prefer HP
+    </label>
+    <label class="option-label">
+      <input type="radio" name="brand" value="dell">
+      I prefer Dell
+    </label>
+    <label class="option-label">
+      <input type="radio" name="brand" value="lenovo">
+      I prefer Lenovo
+    </label>
+    <label class="option-label">
+      <input type="radio" name="brand" value="asus">
+      I prefer ASUS
+    </label>
+    <label class="option-label">
+      <input type="radio" name="brand" value="acer">
+      I prefer Acer
+    </label>
+  </div>
+
   <button type="button" onclick="getRecommendation()">Get my laptop suggestion</button>
 </form>
 
@@ -152,7 +181,7 @@ function getRecommendation() {
   const form = document.getElementById('quizForm');
 
   // Make sure all questions answered
-  const requiredNames = ["use", "carry", "battery", "budget", "screen"];
+  const requiredNames = ["use", "carry", "battery", "budget", "screen", "brand"];
   for (let name of requiredNames) {
     const checked = form.querySelector('input[name="' + name + '"]:checked');
     if (!checked) {
@@ -166,6 +195,7 @@ function getRecommendation() {
   const battery = form.querySelector('input[name="battery"]:checked').value;
   const budget = form.querySelector('input[name="budget"]:checked').value;
   const screen = form.querySelector('input[name="screen"]:checked').value;
+  const brand = form.querySelector('input[name="brand"]:checked').value;
 
   // Build a simple natural summary
   let summaryParts = [];
@@ -215,6 +245,13 @@ function getRecommendation() {
     summaryParts.push("You prefer a bigger screen, around 15–16 inches, for comfortable viewing.");
   } else {
     summaryParts.push("Any screen size is fine for you.");
+  }
+
+  // Brand summary
+  if (brand === "any") {
+    summaryParts.push("You are open to any good and reliable brand.");
+  } else {
+    summaryParts.push("You prefer the brand: " + brand.toUpperCase() + ".");
   }
 
   const summaryText = summaryParts.join(" ");
@@ -270,26 +307,38 @@ function getRecommendation() {
     (battery === "long" ? "7–8+ hours" : battery === "medium" ? "4–6 hours" : "3–4 hours") +
     " of real use.";
 
-  // Example product suggestion (CHANGE THIS LINK to your own shop / Amazon / Flipkart)
+  // Build brand part for link search
+  let brandSearch = "";
+  if (brand !== "any") {
+    brandSearch = "+" + brand;
+  }
+
+  // Example product suggestion (CHANGE THESE LINKS to your own shop / Amazon / Flipkart)
   if (use === "basic" && budget === "low") {
     linkHtml =
       'You can look for an affordable 14-inch student or everyday use laptop, for example: ' +
-      '<a href="https://www.amazon.in/s?k=14+inch+laptop+8gb+ram+256gb+ssd" target="_blank">See options on Amazon</a>.';
+      '<a href="https://www.amazon.in/s?k=' + (screen === "small" ? "14+inch" : "laptop") +
+      "+8gb+ram+256gb+ssd" + brandSearch +
+      '" target="_blank">See options on Amazon</a>.';
   } else if (use === "office") {
     linkHtml =
       'You can search for 14–15.6 inch office / business laptops with 16 GB RAM, for example: ' +
-      '<a href="https://www.amazon.in/s?k=16gb+ram+512gb+ssd+laptop" target="_blank">See office laptops</a>.';
+      '<a href="https://www.amazon.in/s?k=16gb+ram+512gb+ssd+laptop' + brandSearch +
+      '" target="_blank">See office laptops</a>.';
   } else if (use === "creator") {
     linkHtml =
       'You can search for creator / content laptops with dedicated graphics, for example: ' +
-      '<a href="https://www.amazon.in/s?k=creator+laptop+16gb+ram+512gb+ssd" target="_blank">See creator laptops</a>.';
+      '<a href="https://www.amazon.in/s?k=creator+laptop+16gb+ram+512gb+ssd' + brandSearch +
+      '" target="_blank">See creator laptops</a>.';
   } else if (use === "gaming") {
     linkHtml =
       'You can search for gaming laptops with dedicated GPU, for example: ' +
-      '<a href="https://www.amazon.in/s?k=gaming+laptop+16gb+ram+512gb+ssd" target="_blank">See gaming laptops</a>.';
+      '<a href="https://www.amazon.in/s?k=gaming+laptop+16gb+ram+512gb+ssd' + brandSearch +
+      '" target="_blank">See gaming laptops</a>.';
   } else {
     linkHtml =
-      'You can browse laptops matching these specs on your favourite shopping site.';
+      'You can browse laptops matching these specs on your favourite shopping site' +
+      (brand !== "any" ? " for brand " + brand.toUpperCase() : "") + '.';
   }
 
   document.getElementById('summaryText').innerText = summaryText;
