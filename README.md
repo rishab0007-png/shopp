@@ -172,7 +172,7 @@
   <p id="summaryText"></p>
   <h3>Suggested laptop type</h3>
   <p id="specText"></p>
-  <h3>Example laptop link</h3>
+  <h3>Example laptop link on Reliance Digital</h3>
   <p id="linkText"></p>
 </div>
 
@@ -307,39 +307,54 @@ function getRecommendation() {
     (battery === "long" ? "7–8+ hours" : battery === "medium" ? "4–6 hours" : "3–4 hours") +
     " of real use.";
 
-  // Build brand part for link search
-  let brandSearch = "";
+  // Build brand and spec keywords for Reliance Digital search
+  let baseUrl = "https://www.reliancedigital.in/search?q=";
+  let keywords = "";
+
+  // Add brand
   if (brand !== "any") {
-    brandSearch = "+" + brand;
+    keywords += encodeURIComponent(brand + " laptop ");
+  } else {
+    keywords += encodeURIComponent("laptop ");
   }
 
-  // Example product suggestion (CHANGE THESE LINKS to your own shop / Amazon / Flipkart)
-  if (use === "basic" && budget === "low") {
-    linkHtml =
-      'You can look for an affordable 14-inch student or everyday use laptop, for example: ' +
-      '<a href="https://www.amazon.in/s?k=' + (screen === "small" ? "14+inch" : "laptop") +
-      "+8gb+ram+256gb+ssd" + brandSearch +
-      '" target="_blank">See options on Amazon</a>.';
-  } else if (use === "office") {
-    linkHtml =
-      'You can search for 14–15.6 inch office / business laptops with 16 GB RAM, for example: ' +
-      '<a href="https://www.amazon.in/s?k=16gb+ram+512gb+ssd+laptop' + brandSearch +
-      '" target="_blank">See office laptops</a>.';
+  // Add spec hints
+  if (use === "gaming") {
+    keywords += encodeURIComponent("gaming ");
   } else if (use === "creator") {
-    linkHtml =
-      'You can search for creator / content laptops with dedicated graphics, for example: ' +
-      '<a href="https://www.amazon.in/s?k=creator+laptop+16gb+ram+512gb+ssd' + brandSearch +
-      '" target="_blank">See creator laptops</a>.';
-  } else if (use === "gaming") {
-    linkHtml =
-      'You can search for gaming laptops with dedicated GPU, for example: ' +
-      '<a href="https://www.amazon.in/s?k=gaming+laptop+16gb+ram+512gb+ssd' + brandSearch +
-      '" target="_blank">See gaming laptops</a>.';
-  } else {
-    linkHtml =
-      'You can browse laptops matching these specs on your favourite shopping site' +
-      (brand !== "any" ? " for brand " + brand.toUpperCase() : "") + '.';
+    keywords += encodeURIComponent("creator ");
   }
+
+  // RAM keywords
+  if (ram.includes("32")) {
+    keywords += encodeURIComponent("32gb ram ");
+  } else if (ram.includes("16")) {
+    keywords += encodeURIComponent("16gb ram ");
+  } else {
+    keywords += encodeURIComponent("8gb ram ");
+  }
+
+  // Storage keywords
+  if (storage.includes("1 TB")) {
+    keywords += encodeURIComponent("1tb ssd ");
+  } else if (storage.includes("512")) {
+    keywords += encodeURIComponent("512gb ssd ");
+  } else {
+    keywords += encodeURIComponent("256gb ssd ");
+  }
+
+  // Screen size hint
+  if (screen === "small") {
+    keywords += encodeURIComponent("14 inch ");
+  } else if (screen === "big") {
+    keywords += encodeURIComponent("15.6 inch ");
+  }
+
+  let finalUrl = baseUrl + keywords;
+
+  linkHtml =
+    'You can see matching laptops on Reliance Digital here: ' +
+    '<a href="' + finalUrl + '" target="_blank">View laptops on Reliance Digital</a>.';
 
   document.getElementById('summaryText').innerText = summaryText;
   document.getElementById('specText').innerText = specText;
