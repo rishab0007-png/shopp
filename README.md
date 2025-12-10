@@ -40,6 +40,10 @@
     .bg-step-9  { background: radial-gradient(circle at top, #22c55e 0, #020617 55%); }
     .bg-step-10 { background: radial-gradient(circle at top, #3b82f6 0, #020617 55%); }
     .bg-step-11 { background: radial-gradient(circle at top, #f97316 0, #020617 55%); }
+    .bg-step-12 { background: radial-gradient(circle at top, #ef4444 0, #020617 55%); }
+    .bg-step-13 { background: radial-gradient(circle at top, #8b5cf6 0, #020617 55%); }
+    .bg-step-14 { background: radial-gradient(circle at top, #10b981 0, #020617 55%); }
+    .bg-step-15 { background: radial-gradient(circle at top, #f59e0b 0, #020617 55%); }
 
     .overlay-gradient {
       position: fixed;
@@ -298,6 +302,10 @@
       text-decoration: underline;
     }
 
+    .hidden {
+      display: none;
+    }
+
     @media (max-width: 640px) {
       .assistant-card {
         padding: 20px 18px 16px;
@@ -328,7 +336,7 @@
         <h1>Smart Laptop Helper</h1>
         <p>Answer step by step, get a smart summary and laptops from Reliance Digital.</p>
       </div>
-      <div class="step-indicator" id="stepIndicator">Step 1 of 11</div>
+      <div class="step-indicator" id="stepIndicator">Step 1 of 15</div>
     </div>
 
     <!-- Cinematic corner visual reflecting question topic -->
@@ -544,6 +552,74 @@
             Rarely
           </label>
         </div>
+
+        <!-- Q12: OS preference -->
+        <div class="question" data-step="12">
+          <h3>12. Which operating system do you prefer?</h3>
+          <p class="question-sub">This decides Windows / other OS type.</p>
+          <label class="option-label">
+            <input type="radio" name="os" value="windows" required>
+            Windows only
+          </label>
+          <label class="option-label">
+            <input type="radio" name="os" value="any">
+            Any OS is fine
+          </label>
+        </div>
+
+        <!-- Q13: Touch screen -->
+        <div class="question" data-step="13">
+          <h3>13. Do you need a touch screen?</h3>
+          <p class="question-sub">Useful for drawing, notes, and tablet style.</p>
+          <label class="option-label">
+            <input type="radio" name="touch" value="must" required>
+            Yes, I want touch screen
+          </label>
+          <label class="option-label">
+            <input type="radio" name="touch" value="nice">
+            Nice to have, not compulsory
+          </label>
+          <label class="option-label">
+            <input type="radio" name="touch" value="no">
+            No, I don’t need touch screen
+          </label>
+        </div>
+
+        <!-- Q14: Build quality -->
+        <div class="question" data-step="14">
+          <h3>14. How important is strong build quality?</h3>
+          <p class="question-sub">Metal body and strong hinges cost more.</p>
+          <label class="option-label">
+            <input type="radio" name="build" value="high" required>
+            Very important, I want solid build
+          </label>
+          <label class="option-label">
+            <input type="radio" name="build" value="medium">
+            Medium important, normal is okay
+          </label>
+          <label class="option-label">
+            <input type="radio" name="build" value="low">
+            Not very important, I focus on specs
+          </label>
+        </div>
+
+        <!-- Q15: Special features -->
+        <div class="question" data-step="15">
+          <h3>15. Any special feature you like?</h3>
+          <p class="question-sub">This helps to fine-tune model type.</p>
+          <label class="option-label">
+            <input type="radio" name="special" value="backlit" required>
+            Backlit keyboard is important
+          </label>
+          <label class="option-label">
+            <input type="radio" name="special" value="fingerprint">
+            Fingerprint / fast login is important
+          </label>
+          <label class="option-label">
+            <input type="radio" name="special" value="none">
+            Nothing special, normal features are fine
+          </label>
+        </div>
       </div>
 
       <div class="nav-row">
@@ -567,7 +643,7 @@
 </div>
 
 <script>
-const totalSteps = 11;
+const totalSteps = 15;
 let currentStep = 1;
 
 const bgLayer = document.getElementById('bgLayer');
@@ -581,17 +657,21 @@ const questionVisual = document.getElementById('questionVisual');
 
 // Small label + icon text for each step
 const visualTexts = {
-  1: { icon: '💻', text: 'Main laptop usage' },
-  2: { icon: '🎒', text: 'Carrying & weight' },
-  3: { icon: '🔋', text: 'Battery backup' },
-  4: { icon: '💰', text: 'Budget range' },
-  5: { icon: '🖥️', text: 'Screen size & comfort' },
-  6: { icon: '🏷️', text: 'Brand preference' },
-  7: { icon: '💾', text: 'Storage & files' },
-  8: { icon: '📆', text: 'How many years' },
-  9: { icon: '⌨️', text: 'Typing & keyboard' },
- 10: { icon: '🔌', text: 'Ports & connections' },
- 11: { icon: '📹', text: 'Online meetings' }
+  1:  { icon: '💻', text: 'Main laptop usage' },
+  2:  { icon: '🎒', text: 'Carrying & weight' },
+  3:  { icon: '🔋', text: 'Battery backup' },
+  4:  { icon: '💰', text: 'Budget range' },
+  5:  { icon: '🖥️', text: 'Screen size & comfort' },
+  6:  { icon: '🏷️', text: 'Brand preference' },
+  7:  { icon: '💾', text: 'Storage & files' },
+  8:  { icon: '📆', text: 'How many years' },
+  9:  { icon: '⌨️', text: 'Typing & keyboard' },
+  10: { icon: '🔌', text: 'Ports & connections' },
+  11: { icon: '📹', text: 'Online meetings' },
+  12: { icon: '🧩', text: 'OS preference' },
+  13: { icon: '🖐️', text: 'Touch screen need' },
+  14: { icon: '🛡️', text: 'Build quality' },
+  15: { icon: '⭐', text: 'Special features' }
 };
 
 // Create progress dots
@@ -632,7 +712,9 @@ function updateUI() {
 
 function validateCurrentStep() {
   const activeQuestion = document.querySelector('.question.active');
-  const name = activeQuestion.querySelector('input[type="radio"]').name;
+  const firstInput = activeQuestion.querySelector('input[type="radio"]');
+  const name = firstInput ? firstInput.name : null;
+  if (!name) return true;
   const checked = document.querySelector(`input[name="${name}"]:checked`);
   if (!checked) {
     alert('Please choose one option to continue.');
@@ -662,13 +744,14 @@ nextBtn.addEventListener('click', () => {
 // Initial
 updateVisual();
 
-// ===== Recommendation logic (same as earlier) =====
+// ===== Recommendation logic =====
 function getRecommendation() {
   const form = document.getElementById('quizForm');
 
   const requiredNames = [
     "use", "carry", "battery", "budget", "screen", "brand",
-    "storageUse", "years", "typing", "ports", "webcam"
+    "storageUse", "years", "typing", "ports", "webcam",
+    "os", "touch", "build", "special"
   ];
   for (let name of requiredNames) {
     const checked = form.querySelector('input[name="' + name + '"]:checked');
@@ -689,9 +772,14 @@ function getRecommendation() {
   const typing     = form.querySelector('input[name="typing"]:checked').value;
   const ports      = form.querySelector('input[name="ports"]:checked').value;
   const webcam     = form.querySelector('input[name="webcam"]:checked').value;
+  const os         = form.querySelector('input[name="os"]:checked').value;
+  const touch      = form.querySelector('input[name="touch"]:checked').value;
+  const build      = form.querySelector('input[name="build"]:checked').value;
+  const special    = form.querySelector('input[name="special"]:checked').value;
 
   let summaryParts = [];
 
+  // Use
   if (use === "basic") {
     summaryParts.push("You mainly want a laptop for simple daily work like browsing, videos and basic office tasks.");
   } else if (use === "office") {
@@ -702,6 +790,7 @@ function getRecommendation() {
     summaryParts.push("You want to play games or do other heavy work on the laptop.");
   }
 
+  // Carry
   if (carry === "daily") {
     summaryParts.push("You will carry the laptop almost every day, so it should be light and easy to carry.");
   } else if (carry === "sometimes") {
@@ -710,6 +799,7 @@ function getRecommendation() {
     summaryParts.push("You will rarely carry the laptop outside, so weight is not a big problem.");
   }
 
+  // Battery
   if (battery === "long") {
     summaryParts.push("You want long battery life for many hours away from charging.");
   } else if (battery === "medium") {
@@ -718,6 +808,7 @@ function getRecommendation() {
     summaryParts.push("Battery life is not your main concern.");
   }
 
+  // Budget
   if (budget === "low") {
     summaryParts.push("You have a low budget and want good value for money.");
   } else if (budget === "medium") {
@@ -726,6 +817,7 @@ function getRecommendation() {
     summaryParts.push("You are ready to pay more for better performance and features.");
   }
 
+  // Screen
   if (screen === "small") {
     summaryParts.push("You prefer a smaller and lighter laptop size, around 13–14 inches.");
   } else if (screen === "big") {
@@ -734,12 +826,14 @@ function getRecommendation() {
     summaryParts.push("Any screen size is fine for you.");
   }
 
+  // Brand
   if (brand === "any") {
     summaryParts.push("You are open to any good and reliable brand.");
   } else {
     summaryParts.push("You prefer the brand: " + brand.toUpperCase() + ".");
   }
 
+  // Storage use
   if (storageUse === "heavy") {
     summaryParts.push("You store many big files like games, videos or a lot of photos.");
   } else if (storageUse === "medium") {
@@ -748,6 +842,7 @@ function getRecommendation() {
     summaryParts.push("You mostly store small documents and light files.");
   }
 
+  // Years
   if (years === "short") {
     summaryParts.push("You are okay if the laptop is good for around 1–2 years.");
   } else if (years === "medium") {
@@ -756,18 +851,21 @@ function getRecommendation() {
     summaryParts.push("You want to keep this laptop for 5 or more years.");
   }
 
+  // Typing
   if (typing === "heavy") {
     summaryParts.push("You type a lot, so a comfortable keyboard is important for you.");
   } else {
     summaryParts.push("You do normal typing, nothing very heavy.");
   }
 
+  // Ports
   if (ports === "many") {
     summaryParts.push("You connect many devices, so you need enough ports (HDMI, USB, maybe LAN).");
   } else {
     summaryParts.push("Normal ports are enough for your use.");
   }
 
+  // Webcam
   if (webcam === "often") {
     summaryParts.push("You attend many online classes or video meetings, so webcam and mic quality matters.");
   } else if (webcam === "sometimes") {
@@ -776,8 +874,43 @@ function getRecommendation() {
     summaryParts.push("You rarely use the laptop for online video calls.");
   }
 
+  // OS
+  if (os === "windows") {
+    summaryParts.push("You clearly prefer Windows as your operating system.");
+  } else {
+    summaryParts.push("You are flexible with operating system choice.");
+  }
+
+  // Touch
+  if (touch === "must") {
+    summaryParts.push("You want a touch screen for better interaction.");
+  } else if (touch === "nice") {
+    summaryParts.push("Touch screen is nice for you, but not compulsory.");
+  } else {
+    summaryParts.push("You do not need a touch screen.");
+  }
+
+  // Build
+  if (build === "high") {
+    summaryParts.push("Strong build quality and a solid body are very important for you.");
+  } else if (build === "medium") {
+    summaryParts.push("Normal build quality is enough, you want a balance of strength and price.");
+  } else {
+    summaryParts.push("You focus more on internal specs than on build strength.");
+  }
+
+  // Special
+  if (special === "backlit") {
+    summaryParts.push("You want a backlit keyboard for comfortable typing in low light.");
+  } else if (special === "fingerprint") {
+    summaryParts.push("You like quick and secure login with fingerprint or similar features.");
+  } else {
+    summaryParts.push("You do not require any very special extra features.");
+  }
+
   const summaryText = summaryParts.join(" ");
 
+  // Basic spec logic
   let ram = "8 GB RAM";
   let storage = "256 GB SSD";
   let gpu = "integrated graphics";
@@ -828,6 +961,12 @@ function getRecommendation() {
   if (webcam === "often") {
     extraNotes.push("Give importance to a good webcam and microphone for clear online meetings.");
   }
+  if (build === "high") {
+    extraNotes.push("Consider metal body or MIL-STD tested laptops for stronger build.");
+  }
+  if (touch === "must") {
+    extraNotes.push("Look for 2-in-1 or touch-enabled models to get full benefit.");
+  }
 
   const specText =
     "A good match for you would be a " +
@@ -838,6 +977,7 @@ function getRecommendation() {
     " of real use." +
     (extraNotes.length ? " " + extraNotes.join(" ") : "");
 
+  // Build Reliance Digital search link
   let baseUrl = "https://www.reliancedigital.in/search?q=";
   let qParts = [];
 
@@ -863,6 +1003,10 @@ function getRecommendation() {
     qParts.push("512gb");
   } else {
     qParts.push("256gb");
+  }
+
+  if (touch === "must") {
+    qParts.push("touch");
   }
 
   const query = encodeURIComponent(qParts.join(" "));
