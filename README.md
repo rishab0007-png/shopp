@@ -17,7 +17,6 @@
       justify-content: center;
       color: #f5f5f5;
       background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
-      /* overflow: hidden;  REMOVED so page can scroll */
     }
 
     /* Background layer that we animate per step */
@@ -78,36 +77,49 @@
       padding: 24px;
     }
 
+    /* LIQUID GLASS CARD */
     .assistant-card {
       position: relative;
-      background: linear-gradient(135deg, rgba(15,23,42,0.97), rgba(15,23,42,0.92));
       border-radius: 24px;
       padding: 28px 26px 24px;
-      border: 1px solid rgba(148,163,184,0.35);
+
+      /* glass base */
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.35),
+        rgba(30, 64, 175, 0.18)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.45);
       box-shadow:
-        0 18px 45px rgba(15,23,42,0.9),
-        0 0 60px rgba(56,189,248,0.35);
+        0 18px 55px rgba(15, 23, 42, 0.9),
+        0 0 80px rgba(56, 189, 248, 0.45),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
       overflow: hidden;
     }
 
+    /* inner liquid-glass shine */
     .assistant-card::before {
       content: "";
       position: absolute;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(56,189,248,0.18), transparent 60%);
-      top: -120px;
-      right: -60px;
-      opacity: 0.7;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.20), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.16), transparent 60%);
+      opacity: 0.9;
+      mix-blend-mode: screen;
       pointer-events: none;
     }
 
     .header-row {
+      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 14px;
       gap: 12px;
+      z-index: 1;
     }
 
     .title-block h1 {
@@ -124,12 +136,13 @@
       font-size: 0.8rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #a5b4fc;
+      color: #e0e7ff;
       border-radius: 999px;
       padding: 4px 10px;
-      border: 1px solid rgba(129,140,248,0.6);
-      background: radial-gradient(circle at top, rgba(67,56,202,0.5), rgba(15,23,42,0.9));
+      border: 1px solid rgba(129,140,248,0.8);
+      background: radial-gradient(circle at top, rgba(67,56,202,0.7), rgba(15,23,42,0.9));
       white-space: nowrap;
+      box-shadow: 0 0 14px rgba(129,140,248,0.7);
     }
 
     /* Small cinematic icon/text in corner related to question */
@@ -139,14 +152,19 @@
       right: 22px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.8);
-      border: 1px solid rgba(148,163,184,0.4);
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(148,163,184,0.6);
       font-size: 0.8rem;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       color: #e5e7eb;
-      box-shadow: 0 8px 18px rgba(15,23,42,0.9);
+      box-shadow:
+        0 8px 22px rgba(15,23,42,0.95),
+        0 0 18px rgba(56,189,248,0.8);
+      z-index: 2;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     .question-visual span.icon {
       font-size: 1.05rem;
@@ -155,9 +173,10 @@
     .question-wrapper {
       position: relative;
       min-height: 220px;
-      max-height: 60vh;      /* NEW: limit height */
+      max-height: 60vh;
       margin-top: 10px;
-      overflow-y: auto;      /* NEW: inner scroll */
+      overflow-y: auto;
+      z-index: 1;
     }
 
     .question {
@@ -182,7 +201,7 @@
 
     .question-sub {
       font-size: 0.85rem;
-      color: #9ca3af;
+      color: #d1d5db;
       margin-bottom: 12px;
     }
 
@@ -193,13 +212,15 @@
       padding: 6px 10px;
       border-radius: 999px;
       background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.35);
+      border: 1px solid rgba(148,163,184,0.5);
       cursor: pointer;
-      transition: border 0.2s ease, background 0.2s ease, transform 0.1s ease;
+      transition: border 0.2s ease, background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 0 rgba(56,189,248,0);
     }
     .option-label:hover {
       border-color: rgba(56,189,248,0.9);
       transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(56,189,248,0.35);
     }
     .option-label input {
       margin-right: 8px;
@@ -212,6 +233,8 @@
       align-items: center;
       margin-top: 14px;
       gap: 10px;
+      z-index: 1;
+      position: relative;
     }
 
     .nav-buttons {
@@ -245,12 +268,14 @@
     }
 
     .btn-secondary {
-      background: transparent;
+      background: rgba(15,23,42,0.85);
       color: #e5e7eb;
       border: 1px solid rgba(148,163,184,0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     .btn-secondary:hover {
-      background: rgba(15,23,42,0.9);
+      background: rgba(15,23,42,0.95);
     }
 
     .progress-dots {
@@ -264,11 +289,12 @@
       height: 8px;
       border-radius: 999px;
       background: rgba(148,163,184,0.5);
-      transition: width 0.25s ease, background 0.25s ease;
+      transition: width 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     }
     .dot.active {
       width: 22px;
       background: #38bdf8;
+      box-shadow: 0 0 12px rgba(56,189,248,0.8);
     }
 
     #result {
@@ -276,9 +302,20 @@
       padding: 14px 16px 12px;
       border-radius: 18px;
       border: 1px solid rgba(148,163,184,0.5);
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.12), rgba(15,23,42,0.96));
+      background: linear-gradient(
+        135deg,
+        rgba(15,23,42,0.9),
+        rgba(37,99,235,0.45)
+      );
       max-height: 280px;
       overflow-y: auto;
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      box-shadow:
+        0 10px 30px rgba(15,23,42,0.9),
+        0 0 32px rgba(56,189,248,0.45);
+      z-index: 1;
+      position: relative;
     }
     #result h2 {
       font-size: 1.05rem;
@@ -314,13 +351,13 @@
       }
       .question-wrapper {
         min-height: 260px;
-        max-height: 65vh;   /* slightly taller on mobile */
+        max-height: 65vh;
       }
       h1 {
         font-size: 1.25rem;
       }
       .question-visual {
-        display: none; /* hide small-icon bar on very small screens if needed */
+        display: none;
       }
     }
   </style>
