@@ -17,7 +17,7 @@
       justify-content: center;
       color: #f5f5f5;
       background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
-      overflow: hidden;
+      /* overflow: hidden;  REMOVED so page can scroll */
     }
 
     /* Background layer that we animate per step */
@@ -155,8 +155,9 @@
     .question-wrapper {
       position: relative;
       min-height: 220px;
+      max-height: 60vh;      /* NEW: limit height */
       margin-top: 10px;
-      overflow: hidden;
+      overflow-y: auto;      /* NEW: inner scroll */
     }
 
     .question {
@@ -313,6 +314,7 @@
       }
       .question-wrapper {
         min-height: 260px;
+        max-height: 65vh;   /* slightly taller on mobile */
       }
       h1 {
         font-size: 1.25rem;
