@@ -3,231 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reliance Digital | Smart Laptop Finder</title>
+    <title>Reliance Digital | AI Laptop Expert</title>
     <style>
-        :root {
-            --primary: #38bdf8;
-            --bg: #020617;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --accent: #22c55e;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-
+        :root { --primary: #38bdf8; --bg: #020617; --card: rgba(30, 41, 59, 0.7); --success: #22c55e; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        
         body {
-            background-color: var(--bg);
+            background: var(--bg);
             color: white;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
-        }
-
-        /* Dynamic Background Glow */
-        .glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% -20%, #0ea5e955, transparent 70%);
-            z-index: -1;
-            transition: 0.8s ease;
+            background-image: radial-gradient(circle at 50% 10%, #0ea5e922, transparent);
         }
 
         .container {
-            width: 90%;
-            max-width: 650px;
-            background: var(--card-bg);
+            width: 95%; max-width: 600px;
+            background: var(--card);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 40px;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
 
-        .step-info { color: var(--primary); font-weight: 700; margin-bottom: 10px; font-size: 0.9rem; }
-        h2 { font-size: 1.8rem; margin-bottom: 25px; line-height: 1.3; }
+        .progress-bar { height: 4px; background: rgba(255,255,255,0.1); margin-bottom: 30px; border-radius: 2px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary); transition: 0.4s; width: 12.5%; }
 
-        .options-grid { display: grid; gap: 12px; }
+        h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; }
 
-        .option-card {
+        .options-list { display: grid; gap: 12px; }
+        .opt-btn {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 18px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
+            padding: 18px; border-radius: 16px;
+            cursor: pointer; text-align: left; transition: 0.2s;
+            font-size: 1rem; color: #cbd5e1;
         }
+        .opt-btn:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--primary); }
+        .opt-btn.active { background: var(--primary); color: #020617; font-weight: 700; border-color: var(--primary); }
 
-        .option-card:hover { background: rgba(56, 189, 248, 0.15); border-color: var(--primary); }
-        .option-card.selected { background: var(--primary); color: #000; font-weight: 600; }
+        .controls { display: flex; justify-content: space-between; margin-top: 35px; }
+        .nav-btn { padding: 12px 28px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .next { background: var(--primary); color: #020617; }
+        .back { background: transparent; color: #94a3b8; border: 1px solid #334155; }
+        .next:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .btn-row { display: flex; justify-content: space-between; margin-top: 30px; }
-        button {
-            padding: 12px 30px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .hidden { display: none !important; }
+        .result-screen { text-align: center; animation: fadeIn 0.6s ease; }
+        .article-tag { display: inline-block; background: #1e293b; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--primary); color: var(--primary); font-family: monospace; margin: 15px 0; }
+        .buy-link { display: block; background: var(--success); color: white; padding: 18px; border-radius: 15px; text-decoration: none; font-weight: 800; margin-top: 20px; }
 
-        .btn-next { background: var(--primary); color: #000; }
-        .btn-back { background: transparent; color: #94a3b8; border: 1px solid #334155; }
-
-        .hidden { display: none; }
-
-        /* Result Card */
-        .result-card { text-align: center; animation: fadeIn 0.6s ease; }
-        .price-tag { color: var(--accent); font-size: 1.5rem; font-weight: bold; margin: 15px 0; }
-        .article-id { font-family: monospace; background: #1e293b; padding: 5px 10px; border-radius: 5px; }
-        .buy-now {
-            display: block; background: var(--accent); color: white;
-            padding: 18px; border-radius: 12px; text-decoration: none;
-            margin-top: 25px; font-weight: 700; font-size: 1.1rem;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
     </style>
 </head>
 <body>
 
-<div class="glow" id="glow"></div>
-
 <div class="container">
-    <div id="quiz-ui">
-        <div class="step-info" id="stepText">Step 1 of 8</div>
-        <h2 id="questionText">What will you use the laptop for?</h2>
-        
-        <div class="options-grid" id="options">
-            </div>
-
-        <div class="btn-row">
-            <button class="btn-back" id="backBtn" onclick="prevStep()" style="visibility:hidden">Back</button>
-            <button class="btn-next" id="nextBtn" onclick="nextStep()">Next Question</button>
+    <div id="quiz-part">
+        <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
+        <h2 id="qText">Loading...</h2>
+        <div class="options-list" id="optList"></div>
+        <div class="controls">
+            <button class="nav-btn back" id="back" onclick="changeStep(-1)">Back</button>
+            <button class="nav-btn next" id="next" onclick="changeStep(1)" disabled>Next</button>
         </div>
     </div>
 
-    <div id="result-ui" class="hidden">
-        <div class="result-card">
-            <div style="font-size: 3rem;">💻</div>
-            <h2 id="resTitle">Best Match Found!</h2>
-            <h3 id="resModel" style="color: var(--primary);">Laptop Model Name</h3>
-            <p id="resSpecs" style="color: #94a3b8; margin: 10px 0;"></p>
-            <p class="article-id" id="resArticle">Article: 000000000</p>
-            <a href="#" id="resLink" target="_blank" class="buy-now">View on Reliance Digital</a>
-            <button onclick="location.reload()" style="margin-top:20px; background:none; color:#64748b; border:none; cursor:pointer;">Restart Quiz</button>
+    <div id="res-part" class="hidden">
+        <div class="result-screen">
+            <div style="font-size: 3rem; margin-bottom: 10px;">🌟</div>
+            <h2 id="resName"></h2>
+            <p id="resSpecs" style="color: #94a3b8; line-height: 1.6;"></p>
+            <div class="article-tag" id="resArt"></div>
+            <a href="#" id="resUrl" target="_blank" class="buy-link">Check Availability at Reliance Digital</a>
+            <button onclick="location.reload()" style="background:none; border:none; color:#64748b; margin-top:20px; cursor:pointer;">Restart Recommendation</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- DATABASE: ADD YOUR 300+ ARTICLES HERE ---
-    // Tags: use, brand, budget (low/mid/high), carry (yes/no), screen (ips/oled)
-    const laptopDB = [
-        { article: "494352115", name: "HP Victus 15", specs: "Ryzen 5, 16GB, 512GB SSD, RTX 3050", tags: { use: "gaming", brand: "hp", budget: "mid", carry: "no", screen: "ips" } },
-        { article: "493712555", name: "Lenovo Yoga 7i", specs: "Intel i7 13th Gen, 16GB, Touch Flip", tags: { use: "office", brand: "lenovo", budget: "high", carry: "yes", screen: "oled" } },
-        { article: "494421456", name: "Apple MacBook Air M3", specs: "M3 Chip, 8GB RAM, 256GB SSD", tags: { use: "creator", brand: "mac", budget: "high", carry: "yes", screen: "ips" } },
-        { article: "493179294", name: "Dell Inspiron 3520", specs: "Intel i3 12th Gen, 8GB RAM, 512GB SSD", tags: { use: "basic", brand: "dell", budget: "low", carry: "no", screen: "ips" } },
-        { article: "494399102", name: "ASUS Vivobook 16X", specs: "Ryzen 7, 16GB, RTX 2050, OLED", tags: { use: "gaming", brand: "asus", budget: "mid", carry: "yes", screen: "oled" } },
-        // ... simply add more lines like these to reach 300+
+    /* --- THE DATABASE (ADD ALL 300+ ARTICLES HERE) --- */
+    const db = [
+        { art: "494352115", name: "HP Victus 15", brand: "hp", budget: "mid", use: "gaming", specs: "Ryzen 5 | 16GB RAM | RTX 3050 | 512GB SSD" },
+        { art: "493712555", name: "Lenovo Yoga 7i", brand: "lenovo", budget: "high", use: "office", specs: "Intel i7 | 16GB RAM | Touch Screen | 2-in-1" },
+        { art: "493179294", name: "Dell Inspiron 15", brand: "dell", budget: "low", use: "basic", specs: "Intel i3 | 8GB RAM | 512GB SSD | Win 11" },
+        { art: "494421456", name: "Apple MacBook Air M3", brand: "mac", budget: "high", use: "creator", specs: "Apple M3 Chip | 8GB RAM | Liquid Retina" },
+        { art: "494399102", name: "ASUS Vivobook 16X", brand: "asus", budget: "mid", use: "gaming", specs: "Ryzen 7 | 16GB RAM | RTX 2050 | OLED" },
+        // ... paste more items here
     ];
 
     const questions = [
-        { id: "use", q: "What's the main purpose?", options: [{l:"Browsing & Students", v:"basic"}, {l:"Office & Coding", v:"office"}, {l:"Gaming", v:"gaming"}, {l:"Video Editing", v:"creator"}]},
-        { id: "budget", q: "Your Budget Range?", options: [{l:"Under ₹40k", v:"low"}, {l:"₹40k - ₹75k", v:"mid"}, {l:"Above ₹75k", v:"high"}]},
-        { id: "brand", q: "Preferred Brand?", options: [{l:"HP", v:"hp"}, {l:"Lenovo", v:"lenovo"}, {l:"Dell", v:"dell"}, {l:"ASUS", v:"asus"}, {l:"Apple (Mac)", v:"mac"}, {l:"Any Brand", v:"any"}]},
-        { id: "carry", q: "Need to carry it daily?", options: [{l:"Yes, Light & Thin", v:"yes"}, {l:"No, Performance First", v:"no"}]},
-        { id: "screen", q: "Screen Preference?", options: [{l:"OLED (Vivid Colors)", v:"oled"}, {l:"IPS (Standard)", v:"ips"}]},
-        { id: "touch", q: "Do you need Touchscreen?", options: [{l:"Yes", v:"yes"}, {l:"No", v:"no"}]},
-        { id: "battery", q: "Battery Expectation?", options: [{l:"All Day (8h+)", v:"long"}, {l:"Standard (4h+)", v:"normal"}]},
-        { id: "visual", q: "Preferred Screen Size?", options: [{l:"Compact (13-14\")", v:"small"}, {l:"Standard (15.6\")", v:"large"}]}
+        { id: "use", q: "What is your main requirement?", opts: [{l:"Student / Home Use", v:"basic"}, {l:"Office / Professional", v:"office"}, {l:"Gaming / High Performance", v:"gaming"}, {l:"Graphic / Video Editing", v:"creator"}]},
+        { id: "brand", q: "Which brand do you prefer?", opts: [{l:"HP", v:"hp"}, {l:"Lenovo", v:"lenovo"}, {l:"Dell", v:"dell"}, {l:"ASUS", v:"asus"}, {l:"Apple (Mac)", v:"mac"}, {l:"I like all brands", v:"any"}]},
+        { id: "budget", q: "Select your budget range:", opts: [{l:"Entry (Under 40k)", v:"low"}, {l:"Value (40k - 75k)", v:"mid"}, {l:"Premium (Above 75k)", v:"high"}]},
+        // You can add 5 more questions here
     ];
 
-    let currentStep = 0;
-    let userAnswers = {};
+    let step = 0;
+    let picks = {};
 
-    function renderQuestion() {
-        const step = questions[currentStep];
-        document.getElementById('stepText').innerText = `Step ${currentStep + 1} of ${questions.length}`;
-        document.getElementById('questionText').innerText = step.q;
+    function loadQ() {
+        const q = questions[step];
+        document.getElementById('qText').innerText = q.q;
+        document.getElementById('pFill').style.width = ((step + 1) / questions.length * 100) + "%";
         
-        const optionsDiv = document.getElementById('options');
-        optionsDiv.innerHTML = '';
+        const list = document.getElementById('optList');
+        list.innerHTML = "";
         
-        step.options.forEach(opt => {
-            const div = document.createElement('div');
-            div.className = `option-card ${userAnswers[step.id] === opt.v ? 'selected' : ''}`;
-            div.innerText = opt.l;
-            div.onclick = () => selectOption(step.id, opt.v);
-            optionsDiv.appendChild(div);
+        q.opts.forEach(o => {
+            const b = document.createElement('button');
+            b.className = `opt-btn ${picks[q.id] === o.v ? 'active' : ''}`;
+            b.innerText = o.l;
+            b.onclick = () => { picks[q.id] = o.v; loadQ(); document.getElementById('next').disabled = false; };
+            list.appendChild(b);
         });
 
-        document.getElementById('backBtn').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
-        document.getElementById('nextBtn').innerText = currentStep === questions.length - 1 ? "Get Recommendation" : "Next Question";
+        document.getElementById('back').style.visibility = step === 0 ? "hidden" : "visible";
+        document.getElementById('next').innerText = step === questions.length - 1 ? "Find My Laptop" : "Next";
+        document.getElementById('next').disabled = !picks[q.id];
     }
 
-    function selectOption(key, val) {
-        userAnswers[key] = val;
-        renderQuestion();
-    }
+    window.changeStep = (n) => {
+        if (n === 1 && step < questions.length - 1) { step++; loadQ(); }
+        else if (n === -1 && step > 0) { step--; loadQ(); }
+        else if (n === 1) { showFinal(); }
+    };
 
-    function nextStep() {
-        if (!userAnswers[questions[currentStep].id]) {
-            alert("Please pick an option!");
-            return;
+    function showFinal() {
+        /* --- ERROR-PROOF LOGIC --- */
+        // 1. First, strictly filter by brand IF the user picked one
+        let filtered = db;
+        if (picks.brand !== "any") {
+            filtered = db.filter(item => item.brand === picks.brand);
         }
-        if (currentStep < questions.length - 1) {
-            currentStep++;
-            renderQuestion();
-        } else {
-            calculateResult();
-        }
+
+        // 2. If the user's chosen brand has no match for their budget, 
+        // fallback to the whole database so they aren't left with "No Results"
+        if (filtered.length === 0) { filtered = db; }
+
+        // 3. Score the remaining items
+        let winner = filtered.map(item => {
+            let s = 0;
+            if (item.budget === picks.budget) s += 50;
+            if (item.use === picks.use) s += 30;
+            return { ...item, s };
+        }).sort((a,b) => b.s - a.s)[0];
+
+        // 4. Update UI
+        document.getElementById('quiz-part').classList.add('hidden');
+        document.getElementById('res-part').classList.remove('hidden');
+        document.getElementById('resName').innerText = winner.name;
+        document.getElementById('resSpecs').innerText = winner.specs;
+        document.getElementById('resArt').innerText = "Reliance Article: " + winner.art;
+        document.getElementById('resUrl').href = `https://www.reliancedigital.in/search?q=${winner.art}:relevance`;
     }
 
-    function prevStep() {
-        if (currentStep > 0) {
-            currentStep--;
-            renderQuestion();
-        }
-    }
-
-    function calculateResult() {
-        let scoredList = laptopDB.map(laptop => {
-            let score = 0;
-            // 1. Budget is Critical (Penalty System)
-            if (laptop.tags.budget === userAnswers.budget) score += 50;
-            else score -= 100;
-
-            // 2. Brand preference
-            if (userAnswers.brand !== 'any' && laptop.tags.brand === userAnswers.brand) score += 30;
-
-            // 3. Use Case Match
-            if (laptop.tags.use === userAnswers.use) score += 25;
-
-            // 4. Portability / Screen
-            if (laptop.tags.carry === userAnswers.carry) score += 10;
-            if (laptop.tags.screen === userAnswers.screen) score += 10;
-
-            return { ...laptop, totalScore: score };
-        });
-
-        // Sort by highest score
-        const winner = scoredList.sort((a, b) => b.totalScore - a.totalScore)[0];
-        showResult(winner);
-    }
-
-    function showResult(item) {
-        document.getElementById('quiz-ui').classList.add('hidden');
-        document.getElementById('result-ui').classList.remove('hidden');
-        document.getElementById('resModel').innerText = item.name;
-        document.getElementById('resSpecs').innerText = item.specs;
-        document.getElementById('resArticle').innerText = "Article Code: " + item.article;
-        document.getElementById('resLink').href = `https://www.reliancedigital.in/search?q=${item.article}:relevance`;
-    }
-
-    renderQuestion();
+    document.addEventListener('DOMContentLoaded', loadQ);
 </script>
 </body>
 </html>
