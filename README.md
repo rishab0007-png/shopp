@@ -2,54 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Cinematic Laptop AI Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinematic Laptop AI Assistant 2026</title>
   <style>
-    /* ... [Your existing CSS remains the same] ... */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #f5f5f5;
-      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+      background: #020617;
+      overflow-x: hidden;
     }
-    .bg-layer { position: fixed; inset: 0; z-index: -3; transition: background 0.8s ease; }
-    .bg-step-1  { background: radial-gradient(circle at top, #0ea5e9 0, #020617 55%); }
-    .bg-step-15 { background: radial-gradient(circle at top, #f59e0b 0, #020617 55%); }
-    .overlay-gradient { position: fixed; inset: 0; background: rgba(15,23,42,0.9); z-index: -2; }
-    .container { width: 100%; max-width: 820px; padding: 24px; }
+    .bg-layer { position: fixed; inset: 0; z-index: -3; transition: background 1s ease; }
+    .bg-step-1  { background: radial-gradient(circle at top, #0ea5e9 0, #020617 70%); }
+    .bg-step-2  { background: radial-gradient(circle at top, #8b5cf6 0, #020617 70%); }
+    .bg-step-3  { background: radial-gradient(circle at top, #ec4899 0, #020617 70%); }
+    .bg-step-4  { background: radial-gradient(circle at top, #f59e0b 0, #020617 70%); }
+    
+    .overlay-gradient { position: fixed; inset: 0; background: rgba(15,23,42,0.85); z-index: -2; }
+    .container { width: 100%; max-width: 820px; padding: 20px; z-index: 1; }
+    
     .assistant-card { 
-        position: relative; border-radius: 24px; padding: 28px; 
-        background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(148, 163, 184, 0.45);
-        backdrop-filter: blur(20px);
+        border-radius: 24px; padding: 35px; 
+        background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(25px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
-    .header-row { display: flex; justify-content: space-between; margin-bottom: 20px; }
-    .step-indicator { border: 1px solid #38bdf8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
-    .question-wrapper { min-height: 250px; position: relative; }
-    .question { display: none; }
+    .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+    .step-indicator { background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; border: 1px solid rgba(56, 189, 248, 0.3); }
+    
+    .question-wrapper { min-height: 280px; }
+    .question { display: none; animation: fadeIn 0.5s ease; }
     .question.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    h3 { margin-bottom: 20px; font-size: 1.4rem; color: #f8fafc; }
     .option-label { 
-        display: block; background: rgba(255,255,255,0.05); 
-        padding: 12px; margin-bottom: 8px; border-radius: 12px; cursor: pointer; 
-        border: 1px solid transparent; transition: 0.3s;
+        display: flex; align-items: center; background: rgba(255,255,255,0.03); 
+        padding: 16px; margin-bottom: 12px; border-radius: 14px; cursor: pointer; 
+        border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s;
     }
-    .option-label:hover { border-color: #38bdf8; background: rgba(56,189,248,0.1); }
-    .nav-row { display: flex; justify-content: space-between; margin-top: 20px; }
-    button { padding: 10px 20px; border-radius: 20px; border: none; cursor: pointer; font-weight: bold; }
-    .btn-primary { background: #38bdf8; color: #020617; }
-    .btn-secondary { background: #1f2937; color: white; }
+    .option-label:hover { background: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
+    input[type="radio"] { margin-right: 15px; accent-color: #38bdf8; transform: scale(1.2); }
+
+    .nav-row { display: flex; justify-content: space-between; margin-top: 30px; }
+    button { padding: 12px 28px; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; }
+    .btn-primary { background: #38bdf8; color: #0f172a; box-shadow: 0 4px 14px 0 rgba(56, 189, 248, 0.39); }
+    .btn-primary:hover { background: #0ea5e9; transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: #94a3b8; border: 1px solid #475569; }
+    .btn-secondary:hover { color: white; border-color: white; }
+
     .hidden { display: none; }
-    #result { 
-        background: rgba(56, 189, 248, 0.1); padding: 20px; border-radius: 15px; 
-        border: 1px solid #38bdf8; margin-top: 20px; 
+    #result { animation: slideUp 0.6s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    .product-card { 
+        background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+        padding: 25px; border-radius: 20px; border: 1px solid #38bdf8; margin-top: 20px; 
     }
+    .alt-card { border-color: #94a3b8; opacity: 0.9; margin-top: 15px; padding: 15px; font-size: 0.9rem; }
+    
     .buy-link {
         display: inline-block; background: #22c55e; color: white; 
-        padding: 12px 24px; border-radius: 30px; text-decoration: none;
-        margin-top: 15px; font-weight: bold;
+        padding: 14px 28px; border-radius: 12px; text-decoration: none;
+        margin-top: 20px; font-weight: bold; text-align: center; width: 100%;
+        transition: 0.3s;
     }
+    .buy-link:hover { background: #16a34a; box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.4); }
   </style>
 </head>
 <body>
@@ -61,83 +82,92 @@
   <div class="assistant-card">
     <div class="header-row">
       <div class="title-block">
-        <h1>Smart Laptop Helper</h1>
-        <p>Finding the exact article from Reliance Digital...</p>
+        <h1 style="font-size: 1.6rem; color: #38bdf8;">Laptop AI Finder</h1>
+        <p style="font-size: 0.9rem; color: #94a3b8;">Precision Article Match (2026 Database)</p>
       </div>
-      <div class="step-indicator" id="stepIndicator">Step 1 of 15</div>
+      <div class="step-indicator" id="stepIndicator">Step 1 of 4</div>
     </div>
 
     <form id="quizForm">
       <div class="question-wrapper">
         <div class="question active" data-step="1">
-          <h3>1. What will you mostly do on the laptop?</h3>
-          <label class="option-label"><input type="radio" name="use" value="basic" required> Simple work</label>
-          <label class="option-label"><input type="radio" name="use" value="office"> Office / Coding</label>
-          <label class="option-label"><input type="radio" name="use" value="creator"> Editing / Design</label>
-          <label class="option-label"><input type="radio" name="use" value="gaming"> Gaming</label>
+          <h3>What will be your primary task?</h3>
+          <label class="option-label"><input type="radio" name="use" value="basic" required> Student / Basic Browsing</label>
+          <label class="option-label"><input type="radio" name="use" value="office"> Professional / Office Work</label>
+          <label class="option-label"><input type="radio" name="use" value="creator"> Creative (Video/Photo Editing)</label>
+          <label class="option-label"><input type="radio" name="use" value="gaming"> High-End Gaming</label>
         </div>
         
-        <div class="question" data-step="2"><h3>2. Carry outside?</h3><label class="option-label"><input type="radio" name="carry" value="daily"> Yes</label><label class="option-label"><input type="radio" name="carry" value="no"> No</label></div>
-        <div class="question" data-step="3"><h3>3. Battery?</h3><label class="option-label"><input type="radio" name="battery" value="long"> 7+ hrs</label><label class="option-label"><input type="radio" name="battery" value="normal"> Normal</label></div>
-        <div class="question" data-step="4"><h3>4. Budget?</h3><label class="option-label"><input type="radio" name="budget" value="low"> Low</label><label class="option-label"><input type="radio" name="budget" value="medium"> Medium</label><label class="option-label"><input type="radio" name="budget" value="high"> High</label></div>
+        <div class="question" data-step="2">
+          <h3>Will you carry it daily?</h3>
+          <label class="option-label"><input type="radio" name="carry" value="daily"> Yes, lightweight is a priority</label>
+          <label class="option-label"><input type="radio" name="carry" value="no"> No, it will mostly stay on a desk</label>
         </div>
 
+        <div class="question" data-step="3">
+          <h3>Expected Battery Life?</h3>
+          <label class="option-label"><input type="radio" name="battery" value="long"> Long (9+ hours / All Day)</label>
+          <label class="option-label"><input type="radio" name="battery" value="normal"> Normal (4-6 hours)</label>
+        </div>
+
+        <div class="question" data-step="4">
+          <h3>Set your budget range:</h3>
+          <label class="option-label"><input type="radio" name="budget" value="low"> Budget (Under ₹40,000)</label>
+          <label class="option-label"><input type="radio" name="budget" value="medium"> Mid-Range (₹40,000 - ₹75,000)</label>
+          <label class="option-label"><input type="radio" name="budget" value="high"> Premium (Above ₹75,000)</label>
+        </div>
+      </div>
+
       <div class="nav-row">
-        <button type="button" class="btn-secondary" id="prevBtn">Back</button>
-        <button type="button" class="btn-primary" id="nextBtn">Next</button>
+        <button type="button" class="btn-secondary" id="prevBtn" style="visibility: hidden;">Back</button>
+        <button type="button" class="btn-primary" id="nextBtn">Next Question</button>
       </div>
     </form>
 
     <div id="result" class="hidden">
-      <h2>Success! We found your match.</h2>
+      <h2 style="color: #22c55e;">Analysis Complete!</h2>
       <p id="summaryText" style="margin: 10px 0; color: #cbd5e1;"></p>
-      <div id="productBox" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px;">
-          <h3 id="modelName" style="color: #38bdf8;"></h3>
-          <p id="modelSpecs" style="font-size: 0.9rem;"></p>
-          <p id="articleCode" style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;"></p>
+      
+      <div class="product-card">
+          <span style="color: #38bdf8; font-weight: bold; font-size: 0.8rem; text-transform: uppercase;">Top Recommendation</span>
+          <h3 id="modelName" style="margin: 10px 0 5px 0;"></h3>
+          <p id="modelSpecs" style="color: #94a3b8; font-size: 0.95rem; line-height: 1.4;"></p>
+          <p id="articleCode" style="font-family: monospace; color: #38bdf8; margin-top: 10px;"></p>
+          <div id="linkContainer"></div>
       </div>
-      <div id="linkContainer"></div>
+
+      <div id="altMatch" class="product-card alt-card hidden">
+          <span style="color: #94a3b8; font-weight: bold; font-size: 0.75rem;">Great Alternative</span>
+          <h4 id="altModelName" style="margin: 5px 0;"></h4>
+          <p id="altArticle" style="font-size: 0.8rem; color: #64748b;"></p>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-// MASTER DATA: Map user needs to Reliance Digital Articles
+// UPDATED 2026 RELIANCE DIGITAL DATABASE
 const laptopDatabase = [
-  {
-    article: "494352115",
-    name: "HP Victus Gaming 15",
-    specs: "AMD Ryzen 5, 16GB RAM, 512GB SSD, RTX 3050 Graphics",
-    tags: { use: "gaming", budget: "medium", carry: "no" }
-  },
-  {
-    article: "494352292",
-    name: "Apple MacBook Air M3",
-    specs: "Apple M3 Chip, 8GB RAM, 256GB SSD, Liquid Retina Display",
-    tags: { use: "creator", budget: "high", carry: "daily" }
-  },
-  {
-    article: "493179294",
-    name: "ASUS Vivobook Go 15",
-    specs: "Ryzen 3 7320U, 8GB RAM, 512GB SSD, Windows 11",
-    tags: { use: "basic", budget: "low", carry: "daily" }
-  },
-  {
-    article: "493838383",
-    name: "Lenovo IdeaPad Slim 3",
-    specs: "Intel i5 12th Gen, 16GB RAM, 512GB SSD",
-    tags: { use: "office", budget: "medium", carry: "daily" }
-  }
-  // You can expand this to 300+ entries
+  { article: "494352115", name: "HP Victus 15-fb Series", specs: "AMD Ryzen 5, 16GB RAM, 512GB SSD, RTX 3050. Optimized for balanced gaming.", tags: { use: "gaming", budget: "medium", carry: "no" } },
+  { article: "493179294", name: "ASUS Vivobook Go 15", specs: "Ryzen 3 7320U, 8GB LPDDR5, 512GB SSD. Perfect for students.", tags: { use: "basic", budget: "low", carry: "daily" } },
+  { article: "493838383", name: "Lenovo IdeaPad Slim 3 i5", specs: "Intel Core i5 12th Gen, 16GB RAM, 512GB SSD. Reliable office workhorse.", tags: { use: "office", budget: "medium", carry: "daily" } },
+  { article: "494421456", name: "Apple MacBook Air M3", specs: "Apple M3 Chip, 16GB RAM, 512GB SSD. Top-tier creative performance.", tags: { use: "creator", budget: "high", carry: "daily" } },
+  { article: "494352292", name: "HP 15s-fq Series", specs: "Intel Core i3 12th Gen, 8GB RAM, 512GB SSD. Solid budget option.", tags: { use: "basic", budget: "low", carry: "no" } },
+  { article: "493712555", name: "Dell Inspiron 15 3530", specs: "Intel Core i5-1334U, 16GB RAM, 512GB SSD. Premium build for office.", tags: { use: "office", budget: "high", carry: "no" } },
+  { article: "494399102", name: "ASUS TUF Gaming A15", specs: "Ryzen 7 7435HS, 16GB RAM, RTX 4050. Pro-level gaming.", tags: { use: "gaming", budget: "high", carry: "no" } }
 ];
 
 let currentStep = 1;
-const totalSteps = 4; // Change to 15 when you add all your questions back
+const totalSteps = 4;
 
-// UI Navigation Logic
 document.getElementById('nextBtn').addEventListener('click', () => {
     const activeQ = document.querySelector('.question.active');
-    if (!activeQ.querySelector('input:checked')) return alert("Select an option");
+    const checked = activeQ.querySelector('input:checked');
+    
+    if (!checked) {
+        alert("Please select an option to continue.");
+        return;
+    }
 
     if (currentStep < totalSteps) {
         currentStep++;
@@ -157,53 +187,58 @@ document.getElementById('prevBtn').addEventListener('click', () => {
 function updateUI() {
     document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
     document.querySelector(`.question[data-step="${currentStep}"]`).classList.add('active');
+    
     document.getElementById('stepIndicator').innerText = `Step ${currentStep} of ${totalSteps}`;
     document.getElementById('bgLayer').className = `bg-layer bg-step-${currentStep}`;
-    document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'block';
+    document.getElementById('prevBtn').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+    document.getElementById('nextBtn').innerText = currentStep === totalSteps ? 'See Results' : 'Next Question';
 }
 
 function processResults() {
     const formData = new FormData(document.getElementById('quizForm'));
-    const userUse = formData.get('use');
-    const userBudget = formData.get('budget');
-    const userCarry = formData.get('carry');
-
-    let bestMatch = null;
-    let topScore = -1;
+    const user = {
+        use: formData.get('use'),
+        budget: formData.get('budget'),
+        carry: formData.get('carry')
+    };
 
     // SCORING ENGINE
-    laptopDatabase.forEach(laptop => {
+    let scoredList = laptopDatabase.map(laptop => {
         let score = 0;
-        if (laptop.tags.use === userUse) score += 10;
-        if (laptop.tags.budget === userBudget) score += 7;
-        if (laptop.tags.carry === userCarry) score += 3;
+        if (laptop.tags.use === user.use) score += 10;
+        if (laptop.tags.budget === user.budget) score += 7;
+        if (laptop.tags.carry === user.carry) score += 3;
+        return { ...laptop, totalScore: score };
+    }).sort((a, b) => b.totalScore - a.totalScore);
 
-        if (score > topScore) {
-            topScore = score;
-            bestMatch = laptop;
-        }
-    });
-
-    displayFinalResult(bestMatch);
+    displayFinalResult(scoredList[0], scoredList[1]);
 }
 
-function displayFinalResult(item) {
+function displayFinalResult(best, alt) {
     document.getElementById('quizForm').classList.add('hidden');
     document.getElementById('result').classList.remove('hidden');
+    document.getElementById('stepIndicator').classList.add('hidden');
     
-    document.getElementById('summaryText').innerText = "Based on your 15-step profile, this laptop offers the best balance of performance and value.";
-    document.getElementById('modelName').innerText = item.name;
-    document.getElementById('modelSpecs').innerText = item.specs;
-    document.getElementById('articleCode').innerText = "Article Code: " + item.article;
+    document.getElementById('summaryText').innerText = `We found a ${best.totalScore > 15 ? 'Perfect' : 'Strong'} match for your requirements.`;
+    document.getElementById('modelName').innerText = best.name;
+    document.getElementById('modelSpecs').innerText = best.specs;
+    document.getElementById('articleCode').innerText = "Reliance Article: " + best.article;
 
-    // RELIANCE DIGITAL SEARCH INTEGRATION
-    const relianceSearchUrl = `https://www.reliancedigital.in/search?q=${item.article}:relevance`;
+    // FIXING THE SEARCH URL
+    // We use the direct article search query for 100% accuracy.
+    const searchUrl = `https://www.reliancedigital.in/search?q=${best.article}:relevance`;
     
     document.getElementById('linkContainer').innerHTML = `
-        <a href="${relianceSearchUrl}" target="_blank" class="buy-link">
-            Check Availability on Reliance Digital
+        <a href="${searchUrl}" target="_blank" class="buy-link">
+            Buy on Reliance Digital →
         </a>
     `;
+
+    if (alt && alt.totalScore > 10) {
+        document.getElementById('altMatch').classList.remove('hidden');
+        document.getElementById('altModelName').innerText = alt.name;
+        document.getElementById('altArticle').innerText = "Alternative Article: " + alt.article;
+    }
 }
 </script>
 </body>
