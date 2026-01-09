@@ -21,6 +21,10 @@
     .bg-step-2  { background: radial-gradient(circle at top, #8b5cf6 0, #020617 70%); }
     .bg-step-3  { background: radial-gradient(circle at top, #ec4899 0, #020617 70%); }
     .bg-step-4  { background: radial-gradient(circle at top, #f59e0b 0, #020617 70%); }
+    .bg-step-5  { background: radial-gradient(circle at top, #10b981 0, #020617 70%); }
+    .bg-step-6  { background: radial-gradient(circle at top, #6366f1 0, #020617 70%); }
+    .bg-step-7  { background: radial-gradient(circle at top, #f43f5e 0, #020617 70%); }
+    .bg-step-8  { background: radial-gradient(circle at top, #06b6d4 0, #020617 70%); }
     
     .overlay-gradient { position: fixed; inset: 0; background: rgba(15,23,42,0.85); z-index: -2; }
     .container { width: 100%; max-width: 820px; padding: 20px; z-index: 1; }
@@ -85,7 +89,7 @@
         <h1 style="font-size: 1.6rem; color: #38bdf8;">Laptop AI Finder</h1>
         <p style="font-size: 0.9rem; color: #94a3b8;">Precision Article Match (2026 Database)</p>
       </div>
-      <div class="step-indicator" id="stepIndicator">Step 1 of 4</div>
+      <div class="step-indicator" id="stepIndicator">Step 1 of 8</div>
     </div>
 
     <form id="quizForm">
@@ -115,6 +119,32 @@
           <label class="option-label"><input type="radio" name="budget" value="low"> Budget (Under ₹40,000)</label>
           <label class="option-label"><input type="radio" name="budget" value="medium"> Mid-Range (₹40,000 - ₹75,000)</label>
           <label class="option-label"><input type="radio" name="budget" value="high"> Premium (Above ₹75,000)</label>
+        </div>
+
+        <div class="question" data-step="5">
+            <h3>Preferred Brand?</h3>
+            <label class="option-label"><input type="radio" name="brand" value="hp"> HP (Reliable Service)</label>
+            <label class="option-label"><input type="radio" name="brand" value="asus"> ASUS (Innovation / OLED)</label>
+            <label class="option-label"><input type="radio" name="brand" value="apple"> Apple (macOS / M3)</label>
+            <label class="option-label"><input type="radio" name="brand" value="any"> No Preference</label>
+        </div>
+
+        <div class="question" data-step="6">
+            <h3>Do you need a Touchscreen or Convertible?</h3>
+            <label class="option-label"><input type="radio" name="touch" value="yes"> Yes (360° Tablet Mode / Touch)</label>
+            <label class="option-label"><input type="radio" name="touch" value="no"> No (Standard Laptop)</label>
+        </div>
+
+        <div class="question" data-step="7">
+            <h3>Is a Backlit Keyboard necessary?</h3>
+            <label class="option-label"><input type="radio" name="backlight" value="yes"> Yes, I work in low light</label>
+            <label class="option-label"><input type="radio" name="backlight" value="no"> No, not a priority</label>
+        </div>
+
+        <div class="question" data-step="8">
+            <h3>Screen Type Preference?</h3>
+            <label class="option-label"><input type="radio" name="screen" value="oled"> OLED (Vibrant Colors / Deep Blacks)</label>
+            <label class="option-label"><input type="radio" name="screen" value="ips"> IPS / Anti-Glare (Standard)</label>
         </div>
       </div>
 
@@ -146,19 +176,19 @@
 </div>
 
 <script>
-// UPDATED 2026 RELIANCE DIGITAL DATABASE
+// UPDATED DATABASE WITH NEW TAGS
 const laptopDatabase = [
-  { article: "494352115", name: "HP Victus 15-fb Series", specs: "AMD Ryzen 5, 16GB RAM, 512GB SSD, RTX 3050. Optimized for balanced gaming.", tags: { use: "gaming", budget: "medium", carry: "no" } },
-  { article: "493179294", name: "ASUS Vivobook Go 15", specs: "Ryzen 3 7320U, 8GB LPDDR5, 512GB SSD. Perfect for students.", tags: { use: "basic", budget: "low", carry: "daily" } },
-  { article: "493838383", name: "Lenovo IdeaPad Slim 3 i5", specs: "Intel Core i5 12th Gen, 16GB RAM, 512GB SSD. Reliable office workhorse.", tags: { use: "office", budget: "medium", carry: "daily" } },
-  { article: "494421456", name: "Apple MacBook Air M3", specs: "Apple M3 Chip, 16GB RAM, 512GB SSD. Top-tier creative performance.", tags: { use: "creator", budget: "high", carry: "daily" } },
-  { article: "494352292", name: "HP 15s-fq Series", specs: "Intel Core i3 12th Gen, 8GB RAM, 512GB SSD. Solid budget option.", tags: { use: "basic", budget: "low", carry: "no" } },
-  { article: "493712555", name: "Dell Inspiron 15 3530", specs: "Intel Core i5-1334U, 16GB RAM, 512GB SSD. Premium build for office.", tags: { use: "office", budget: "high", carry: "no" } },
-  { article: "494399102", name: "ASUS TUF Gaming A15", specs: "Ryzen 7 7435HS, 16GB RAM, RTX 4050. Pro-level gaming.", tags: { use: "gaming", budget: "high", carry: "no" } }
+  { article: "494352115", name: "HP Victus 15-fb Series", specs: "Ryzen 5, 16GB, RTX 3050. Non-touch, Backlit.", tags: { use: "gaming", budget: "medium", carry: "no", brand: "hp", touch: "no", backlight: "yes", screen: "ips" } },
+  { article: "493179294", name: "ASUS Vivobook Go 15", specs: "Ryzen 3, 8GB. Basic use, IPS Screen.", tags: { use: "basic", budget: "low", carry: "daily", brand: "asus", touch: "no", backlight: "no", screen: "ips" } },
+  { article: "493838383", name: "Lenovo IdeaPad Slim 3", specs: "i5 12th Gen, 16GB. Solid office workhorse.", tags: { use: "office", budget: "medium", carry: "daily", brand: "any", touch: "no", backlight: "yes", screen: "ips" } },
+  { article: "494421456", name: "Apple MacBook Air M3", specs: "M3 Chip, 16GB. Liquid Retina, No Touch.", tags: { use: "creator", budget: "high", carry: "daily", brand: "apple", touch: "no", backlight: "yes", screen: "ips" } },
+  { article: "493712555", name: "HP Pavilion x360", specs: "i5 13th Gen, Touchscreen, Convertible 2-in-1.", tags: { use: "office", budget: "high", carry: "daily", brand: "hp", touch: "yes", backlight: "yes", screen: "ips" } },
+  { article: "494399102", name: "ASUS Zenbook 14 OLED", specs: "Ultra 5, 16GB, Stunning OLED Display.", tags: { use: "creator", budget: "high", carry: "daily", brand: "asus", touch: "no", backlight: "yes", screen: "oled" } },
+  { article: "492166443", name: "ASUS Vivobook 16X", specs: "Ryzen 5, OLED screen, Basic Backlight.", tags: { use: "basic", budget: "medium", carry: "no", brand: "asus", touch: "no", backlight: "yes", screen: "oled" } }
 ];
 
 let currentStep = 1;
-const totalSteps = 4;
+const totalSteps = 8;
 
 document.getElementById('nextBtn').addEventListener('click', () => {
     const activeQ = document.querySelector('.question.active');
@@ -199,15 +229,23 @@ function processResults() {
     const user = {
         use: formData.get('use'),
         budget: formData.get('budget'),
-        carry: formData.get('carry')
+        carry: formData.get('carry'),
+        brand: formData.get('brand'),
+        touch: formData.get('touch'),
+        backlight: formData.get('backlight'),
+        screen: formData.get('screen')
     };
 
-    // SCORING ENGINE
     let scoredList = laptopDatabase.map(laptop => {
         let score = 0;
         if (laptop.tags.use === user.use) score += 10;
-        if (laptop.tags.budget === user.budget) score += 7;
-        if (laptop.tags.carry === user.carry) score += 3;
+        if (laptop.tags.budget === user.budget) score += 8;
+        if (laptop.tags.carry === user.carry) score += 5;
+        if (user.brand !== "any" && laptop.tags.brand === user.brand) score += 12;
+        if (laptop.tags.touch === user.touch) score += 15; // High weight for touch
+        if (laptop.tags.backlight === user.backlight) score += 5;
+        if (laptop.tags.screen === user.screen) score += 7;
+        
         return { ...laptop, totalScore: score };
     }).sort((a, b) => b.totalScore - a.totalScore);
 
@@ -219,13 +257,11 @@ function displayFinalResult(best, alt) {
     document.getElementById('result').classList.remove('hidden');
     document.getElementById('stepIndicator').classList.add('hidden');
     
-    document.getElementById('summaryText').innerText = `We found a ${best.totalScore > 15 ? 'Perfect' : 'Strong'} match for your requirements.`;
+    document.getElementById('summaryText').innerText = `We found a ${best.totalScore > 35 ? 'Perfect' : 'Strong'} match for your requirements.`;
     document.getElementById('modelName').innerText = best.name;
     document.getElementById('modelSpecs').innerText = best.specs;
     document.getElementById('articleCode').innerText = "Reliance Article: " + best.article;
 
-    // FIXING THE SEARCH URL
-    // We use the direct article search query for 100% accuracy.
     const searchUrl = `https://www.reliancedigital.in/search?q=${best.article}:relevance`;
     
     document.getElementById('linkContainer').innerHTML = `
@@ -234,7 +270,7 @@ function displayFinalResult(best, alt) {
         </a>
     `;
 
-    if (alt && alt.totalScore > 10) {
+    if (alt && alt.totalScore > 20) {
         document.getElementById('altMatch').classList.remove('hidden');
         document.getElementById('altModelName').innerText = alt.name;
         document.getElementById('altArticle').innerText = "Alternative Article: " + alt.article;
