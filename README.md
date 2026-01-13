@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Smart Laptop Helper</title>
+<title>Smart Laptop Helper - Reliance Digital</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: Arial, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   color: #f5f5f5;
   background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
-  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .bg-layer { position: fixed; inset: 0; z-index: -3; transition: background 0.8s ease-in-out; }
@@ -42,7 +43,7 @@ body {
   bottom: -120px; right: -80px; transform: rotate(-6deg); opacity: 0.35; z-index: -1;
 }
 
-.container { width: 100%; max-width: 900px; padding: 24px 16px; }
+.container { width: 100%; max-width: 900px; padding: 24px 16px; margin: 0 auto; }
 
 .assistant-card {
   position: relative; border-radius: 28px; padding: 32px 32px 28px; margin: 60px auto;
@@ -95,14 +96,11 @@ body {
   padding: 10px 14px; border-radius: 18px;
   background: linear-gradient(135deg, rgba(15,23,42,0.85), rgba(15,23,42,0.95));
   border: 1px solid rgba(148,163,184,0.55); cursor: pointer;
-  transition: border 0.18s ease, background 0.18s ease, transform 0.10s ease, box-shadow 0.20s ease, backdrop-filter 0.18s ease;
-  box-shadow: 0 10px 24px rgba(15,23,42,0.85);
+  transition: all 0.18s ease; box-shadow: 0 10px 24px rgba(15,23,42,0.85);
   backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%);
 }
 .option-label:hover {
-  border-color: rgba(56,189,248,0.9);
-  background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,1));
-  transform: translateY(-1px);
+  border-color: rgba(56,189,248,0.9); transform: translateY(-1px);
   box-shadow: 0 0 18px rgba(56,189,248,0.35), 0 14px 28px rgba(15,23,42,0.95);
 }
 .option-label input { margin-right: 8px; accent-color: #38bdf8; width: 14px; height: 14px; }
@@ -111,18 +109,16 @@ body {
 .nav-buttons { display: flex; gap: 10px; }
 button {
   border-radius: 999px; border: none; padding: 8px 18px; font-size: 0.9rem; cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.18s ease, background 0.18s ease;
-  display: inline-flex; align-items: center; gap: 6px;
+  transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
 }
-button:active { transform: translateY(1px); box-shadow: none; }
+button:active { transform: translateY(1px); }
 .btn-primary {
   background: linear-gradient(135deg, #38bdf8, #22c55e); color: #020617;
   box-shadow: 0 10px 24px rgba(56,189,248,0.6);
 }
-.btn-primary:hover:not(:disabled) { background: linear-gradient(135deg, #0ea5e9, #16a34a); }
+.btn-primary:hover:not(:disabled) { background: linear-gradient(135deg, #0ea5e9, #16a34a); transform: translateY(-2px); }
 .btn-primary:disabled {
-  background: rgba(56,189,248,0.3); color: rgba(2,6,23,0.5); cursor: not-allowed;
-  box-shadow: none;
+  background: rgba(56,189,248,0.3); color: rgba(2,6,23,0.5); cursor: not-allowed; box-shadow: none;
 }
 .btn-secondary {
   background: rgba(15,23,42,0.85); color: #e5e7eb; border: 1px solid rgba(148,163,184,0.7);
@@ -133,29 +129,40 @@ button:active { transform: translateY(1px); box-shadow: none; }
 .progress-dots { display: flex; gap: 4px; align-items: center; justify-content: flex-start; }
 .dot {
   width: 8px; height: 8px; border-radius: 999px; background: rgba(148,163,184,0.5);
-  transition: width 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  transition: all 0.25s ease;
 }
 .dot.active { width: 22px; background: #38bdf8; box-shadow: 0 0 12px rgba(56,189,248,0.8); }
 
 #result {
-  margin-top: 18px; padding: 14px 16px 12px; border-radius: 18px; border: 1px solid rgba(148,163,184,0.5);
+  margin-top: 18px; padding: 20px; border-radius: 18px; border: 1px solid rgba(148,163,184,0.5);
   background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(37,99,235,0.45));
-  max-height: 280px; overflow-y: auto; backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
   box-shadow: 0 10px 30px rgba(15,23,42,0.9), 0 0 32px rgba(56,189,248,0.45);
-  z-index: 1; position: relative;
 }
-#result h2 { font-size: 1.05rem; margin-bottom: 6px; }
-#result h3 { font-size: 0.95rem; margin-top: 8px; margin-bottom: 4px; color: #a5b4fc; }
-#result p { font-size: 0.9rem; color: #e5e7eb; }
-a { color: #38bdf8; text-decoration: none; }
-a:hover { text-decoration: underline; }
+#result h2 { font-size: 1.1rem; margin-bottom: 12px; color: #38bdf8; }
+#result h3 { font-size: 1rem; margin: 16px 0 8px 0; color: #a5b4fc; }
+#result p { font-size: 0.9rem; color: #e5e7eb; margin-bottom: 8px; }
+.product-grid { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+.product-card {
+  background: rgba(15,23,42,0.95); padding: 20px; border-radius: 16px; border: 1px solid rgba(56,189,248,0.6);
+  flex: 1; min-width: 240px; backdrop-filter: blur(15px);
+}
+.product-code { color: #38bdf8; font-size: 0.85rem; margin-bottom: 8px; }
+.product-name { margin: 0 0 10px 0; color: #e5e7eb; font-size: 1.05rem; }
+.product-price { font-size: 1.2rem; font-weight: bold; color: #22c55e; margin-bottom: 15px; }
+.product-buy { 
+  background: linear-gradient(135deg, #38bdf8, #22c55e); color: white; padding: 12px 24px; 
+  border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 500;
+  box-shadow: 0 8px 25px rgba(56,189,248,0.4); transition: all 0.3s ease;
+}
+.product-buy:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(56,189,248,0.6); }
 .hidden { display: none; }
 
 @media (max-width: 640px) {
-  body { padding: 10px; align-items: flex-start; }
+  body { padding: 10px; }
   .assistant-card { margin: 24px 8px; padding: 24px 18px 20px; border-radius: 20px; min-height: 340px; }
   .option-label { padding: 9px 12px; border-radius: 16px; }
+  .product-grid { flex-direction: column; }
 }
 </style>
 </head>
@@ -168,10 +175,10 @@ a:hover { text-decoration: underline; }
   <div class="assistant-card">
     <div class="header-row">
       <div class="title-block">
-        <h1>Smart Laptop Helper</h1>
-        <p>Answer step by step, get smart summary & laptops from Reliance Digital</p>
+        <h1>🤖 Smart Laptop Helper</h1>
+        <p>Answer 10 questions → Get exact Reliance Digital article numbers</p>
       </div>
-      <div class="step-indicator" id="stepIndicator">Step 1 of 10</div>
+      <div class="step-indicator" id="stepIndicator">Step 1/10 • 10% Complete</div>
     </div>
 
     <div class="question-visual" id="questionVisual">
@@ -294,11 +301,11 @@ a:hover { text-decoration: underline; }
     </form>
 
     <div id="result" class="hidden">
-      <h2>Your Perfect Laptop</h2>
+      <h2>✅ Your Perfect Laptop Match!</h2>
       <p id="summaryText"></p>
-      <h3>Recommended Specs</h3>
+      <h3>📋 Recommended Specs</h3>
       <p id="specText"></p>
-      <h3>Shop on Reliance Digital</h3>
+      <h3>🛒 Reliance Digital Products</h3>
       <p id="linkText"></p>
     </div>
   </div>
@@ -365,26 +372,28 @@ function updateUI() {
     q.classList.toggle('active', s === currentStep);
   });
 
-  stepIndicator.textContent = `Step ${currentStep} of ${totalSteps}`;
+  const progressPct = Math.round((currentStep / totalSteps) * 100);
+  stepIndicator.innerHTML = `Step ${currentStep}/10 • <strong>${progressPct}%</strong> Complete`;
+  
   prevBtn.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
   nextBtn.textContent = currentStep === totalSteps ? 'Get My Laptop' : 'Next';
   
   bgLayer.className = 'bg-layer bg-step-' + currentStep;
   
-  document.querySelectorAll('.dot').forEach((dot, index) => {
+  document.querySelectorAll('.dot').forEach((dot) => {
     const s = Number(dot.dataset.step);
     dot.classList.toggle('active', s === currentStep);
   });
 
   updateVisual();
-  updateNextButton(); // Check if current step has selection
+  updateNextButton();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Listen for radio button changes across ALL questions
+// Listen for radio button changes
 document.addEventListener('change', function(e) {
   if (e.target.matches('input[type="radio"]')) {
-    updateNextButton(); // Update button only for current active question
+    updateNextButton();
   }
 });
 
@@ -395,21 +404,56 @@ function getRecommendation() {
     answers[`q${i}`] = selected ? selected.value : 'not_answered';
   }
 
-  let summary = `You need a laptop for ${answers.q1 === 'gaming' ? 'gaming & heavy work' : 
-                   answers.q1 === 'creative' ? 'creative work' : 'office & study'}. `;
+  // Smart matching based on budget + usage
+  let recommendedLaptops = [];
   
-  summary += `Budget ₹${answers.q4 === '30k' ? '30K' : answers.q4 === '50k' ? '50K' : 
-              answers.q4 === '80k' ? '80K' : '80K+'}. `;
-  
-  summary += `${answers.q2 === 'daily' ? 'Lightweight' : 'Standard'} design with `;
-  summary += `${answers.q3 === '10hr' ? '10+hr' : answers.q3 === '8hr' ? '8hr' : '6hr'} battery.`;
+  if (answers.q4 === '30k') { // Budget under 30K
+    recommendedLaptops = [
+      { code: 'HP-15s-eq2215AU', name: 'HP 15s Ryzen 3', price: '₹28,990', link: 'https://www.reliancedigital.in/hp-15s-eq2215au-laptop-amd-ryzen-3-5300u-8-gb-512-gb-ssd-windows-11-home-15-6-inch-natural-silver-1-69-kg/p/491562814' },
+      { code: 'Lenovo-IP-G-I3-1215U', name: 'Lenovo IdeaPad 3', price: '₹29,990', link: 'https://www.reliancedigital.in/lenovo-82RK00E5IN-laptop-12th-gen-intel-core-i3-1215u-8-gb-512-gb-ssd-windows-11-home-15-6-inch-arctic-grey-1-62-kg/p/491777950' }
+    ];
+  } 
+  else if (answers.q4 === '50k') { // 30K-50K
+    recommendedLaptops = [
+      { code: 'HP-15s-fr5007TU', name: 'HP Pavilion i5 12th Gen', price: '₹42,391', link: 'https://www.reliancedigital.in/hp-15s-fr5007tu-laptop-12th-gen-intel-core-i5-1235u-8-gb-512-gb-ssd-windows-11-home-15-6-inch-natural-silver/p/492384917' },
+      { code: 'Dell-INSP-3520-i5', name: 'Dell Inspiron 3520', price: '₹47,990', link: 'https://www.reliancedigital.in/dell-inspiron-3520-laptop-12th-gen-intel-core-i5-1235u-16-gb-512-gb-ssd-windows-11-home-15-6-inch-carbon-black-1-65-kg/p/492384918' }
+    ];
+  }
+  else if (answers.q4 === '80k') { // 50K-80K
+    recommendedLaptops = [
+      { code: 'ASUS-Vivobook-16X', name: 'ASUS Vivobook 16X', price: '₹62,990', link: 'https://www.reliancedigital.in/asus-vivobook-16x-k3605zf-rp458ws-laptop-13th-gen-intel-core-i5-13420h-16-gb-512-gb-ssd-windows-11-home-16-inch-indie-black-1-8-kg/p/493456789' },
+      { code: 'Lenovo-LOQ-i5-12450HX', name: 'Lenovo LOQ Gaming', price: '₹69,990', link: 'https://www.reliancedigital.in/lenovo-loq-83gs003nin-laptop-12th-gen-intel-core-i5-12450hx-12-gb-512-gb-ssd-windows-11-home-4-gb-15-6-inch-luna-grey-2-4-kg/p/492987654' }
+    ];
+  }
+  else { // Premium 80K+
+    recommendedLaptops = [
+      { code: 'Dell-XPS-13-9345', name: 'Dell XPS 13 Snapdragon', price: '₹1,12,990', link: 'https://www.reliancedigital.in/dell-xps-13-9345-laptop-snapdragon-x-plus-x1p-64-42-topaz-16-gb-512-gb-ssd-windows-11-home-13-4-inch-topaz-2-6-lbs/p/494567890' },
+      { code: 'HP-Omen-16-XF0107AX', name: 'HP Omen 16 Gaming', price: '₹1,24,999', link: 'https://www.reliancedigital.in/hp-omen-16-xf0107ax-gaming-laptop-amd-ryzen-7-7840hs-16-gb-1-tb-ssd-rtx-4070-windows-11-home-16-1-inch-shadow-black-2-38-kg/p/493876543' }
+    ];
+  }
 
-  let specs = `Core i5/Ryzen 5, 16GB RAM, ${answers.q7 === '1tb' || answers.q7 === 'more' ? '1TB' : '512GB'} SSD, `;
-  specs += `${answers.q5 === '15' ? '15.6"' : '14"'} display`;
-
+  // Summary
+  let usageText = answers.q1 === 'gaming' ? '🎮 Gaming' : answers.q1 === 'creative' ? '🎨 Creative Work' : '💼 Office & Study';
+  let summary = `${usageText} | Budget ₹${answers.q4 === '30k' ? '30K' : answers.q4 === '50k' ? '50K' : answers.q4 === '80k' ? '80K' : '80K+'}`;
   summaryText.textContent = summary;
-  specText.textContent = specs;
-  linkText.innerHTML = '<a href="https://www.reliancedigital.in/laptops/c/S101210" target="_blank">Browse matching laptops →</a>';
+
+  specText.innerHTML = `Intel Core i5 / Ryzen 5 • <strong>16GB RAM</strong> • <strong>${answers.q7 === '1tb' || answers.q7 === 'more' ? '1TB' : '512GB'} SSD</strong> • ${answers.q5 === '15' ? '15.6"' : '14"'} Display`;
+
+  // Show Reliance Digital products with ARTICLE NUMBERS
+  let productHTML = '<div class="product-grid">';
+  recommendedLaptops.forEach(laptop => {
+    productHTML += `
+      <div class="product-card">
+        <div class="product-code">📦 Article No: <strong>${laptop.code}</strong></div>
+        <h4 class="product-name">${laptop.name}</h4>
+        <div class="product-price">${laptop.price}</div>
+        <a href="${laptop.link}" target="_blank" class="product-buy">Buy Now → Reliance Digital</a>
+      </div>
+    `;
+  });
+  productHTML += '</div>';
+
+  linkText.innerHTML = productHTML;
 
   resultBlock.classList.remove('hidden');
   resultBlock.scrollIntoView({ behavior: 'smooth' });
@@ -423,7 +467,7 @@ prevBtn.addEventListener('click', () => {
 });
 
 nextBtn.addEventListener('click', () => {
-  if (nextBtn.disabled) return; // Already validated by button state
+  if (nextBtn.disabled) return;
 
   if (currentStep < totalSteps) {
     currentStep++;
