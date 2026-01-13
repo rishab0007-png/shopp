@@ -171,7 +171,7 @@ body {
   z-index: 1;
 }
 
-/* NO absolute – let card grow */
+/* Question blocks */
 .question {
   position: relative;
   opacity: 0;
@@ -392,8 +392,66 @@ a:hover {
 
     <form id="quizForm">
       <div class="question-wrapper">
-        <!-- All 15 questions exactly as before (same HTML you already have) -->
-        <!-- For brevity: paste the same question blocks you were using earlier here -->
+
+        <!-- STEP 1 -->
+        <div class="question active" data-step="1">
+          <h3>Main laptop usage</h3>
+          <p class="question-sub">Choose what you will do most of the time.</p>
+
+          <label class="option-label">
+            <input type="radio" name="q1" value="basic">
+            Basic work, browsing, YouTube
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q1" value="office">
+            Office work, online classes
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q1" value="gaming">
+            Gaming / video editing / design
+          </label>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="question" data-step="2">
+          <h3>Carrying & weight</h3>
+          <p class="question-sub">How important is a light laptop for you?</p>
+
+          <label class="option-label">
+            <input type="radio" name="q2" value="very_light">
+            Very important, carry daily
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q2" value="normal">
+            Normal weight is okay
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q2" value="not_important">
+            Weight is not important
+          </label>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="question" data-step="3">
+          <h3>Battery backup</h3>
+          <p class="question-sub">How many hours do you want without charger?</p>
+
+          <label class="option-label">
+            <input type="radio" name="q3" value="4">
+            Around 4 hours
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q3" value="6">
+            6–7 hours
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q3" value="8plus">
+            8+ hours if possible
+          </label>
+        </div>
+
+        <!-- TODO: add steps 4 .. 15 in same style -->
+
       </div>
 
       <div class="nav-row">
@@ -417,8 +475,7 @@ a:hover {
 </div>
 
 <script>
-/* JS same logic, sirf layout ke saath work karega */
-const totalSteps = 15;
+const totalSteps = 15; // keep 15, UI and backgrounds depend on this
 let currentStep = 1;
 
 const bgLayer = document.getElementById('bgLayer');
@@ -428,6 +485,9 @@ const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 const progressDotsContainer = document.getElementById('progressDots');
 const resultBlock = document.getElementById('result');
+const summaryText = document.getElementById('summaryText');
+const specText = document.getElementById('specText');
+const linkText = document.getElementById('linkText');
 const questionVisual = document.getElementById('questionVisual');
 
 const visualTexts = {
@@ -448,56 +508,107 @@ const visualTexts = {
  15:{icon:'⭐',text:'Special features'}
 };
 
-for(let i=1;i<=totalSteps;i++){
-  const dot=document.createElement('div');
-  dot.className='dot'+(i===1?' active':'');
-  dot.dataset.step=i;
+// create progress dots
+for (let i = 1; i <= totalSteps; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i === 1 ? ' active' : '');
+  dot.dataset.step = i;
   progressDotsContainer.appendChild(dot);
 }
 
-function updateVisual(){
-  const d=visualTexts[currentStep];
-  if(!d) return;
-  questionVisual.querySelector('.icon').textContent=d.icon;
-  questionVisual.querySelector('.text').textContent=d.text;
+function updateVisual() {
+  const d = visualTexts[currentStep];
+  if (!d) return;
+  questionVisual.querySelector('.icon').textContent = d.icon;
+  questionVisual.querySelector('.text').textContent = d.text;
 }
-function updateUI(){
-  questions.forEach(q=>{
-    const s=Number(q.dataset.step);
-    q.classList.toggle('active',s===currentStep);
+
+function updateUI() {
+  questions.forEach(q => {
+    const s = Number(q.dataset.step);
+    q.classList.toggle('active', s === currentStep);
   });
-  stepIndicator.textContent=`Step ${currentStep} of ${totalSteps}`;
-  prevBtn.style.visibility=currentStep===1?'hidden':'visible';
-  nextBtn.textContent=currentStep===totalSteps?'Get suggestion':'Next';
-  bgLayer.className='bg-layer bg-step-'+currentStep;
-  document.querySelectorAll('.dot').forEach(dot=>{
-    const s=Number(dot.dataset.step);
-    dot.classList.toggle('active',s===currentStep);
+
+  stepIndicator.textContent = `Step ${currentStep} of ${totalSteps}`;
+  prevBtn.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+  nextBtn.textContent = currentStep === totalSteps ? 'Get suggestion' : 'Next';
+
+  bgLayer.className = 'bg-layer bg-step-' + currentStep;
+
+  document.querySelectorAll('.dot').forEach(dot => {
+    const s = Number(dot.dataset.step);
+    dot.classList.toggle('active', s === currentStep);
   });
+
   updateVisual();
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-function validateCurrentStep(){
-  const active=document.querySelector('.question.active');
-  const first=active.querySelector('input[type="radio"]');
-  const name=first?first.name:null;
-  if(!name) return true;
-  const checked=document.querySelector(`input[name="${name}"]:checked`);
-  if(!checked){ alert('Please choose one option to continue.'); return false;}
+
+function validateCurrentStep() {
+  const active = document.querySelector('.question.active');
+  if (!active) return true; // nothing to validate
+
+  const first = active.querySelector('input[type="radio"]');
+  const name = first ? first.name : null;
+  if (!name) return true;
+
+  const checked = active.querySelector(`input[name="${name}"]:checked`);
+  if (!checked) {
+    alert('Please choose one option to continue.');
+    return false;
+  }
   return true;
 }
-prevBtn.addEventListener('click',()=>{
-  if(currentStep>1){ currentStep--; updateUI(); }
+
+// simple recommendation using first 3 questions
+function getRecommendation() {
+  const q1 = document.querySelector('input[name="q1"]:checked')?.value;
+  const q2 = document.querySelector('input[name="q2"]:checked')?.value;
+  const q3 = document.querySelector('input[name="q3"]:checked')?.value;
+
+  let usageText = 'balanced everyday use';
+  if (q1 === 'basic') usageText = 'basic browsing and office work';
+  else if (q1 === 'gaming') usageText = 'gaming and heavy tasks';
+
+  let weightText = (q2 === 'very_light') ? 'lightweight, easy to carry' : 'normal weight';
+
+  let batteryText = 'around 5–6 hours';
+  if (q3 === '8plus') batteryText = 'long battery life (8+ hours)';
+
+  summaryText.textContent =
+    `You need a laptop for ${usageText}, with a ${weightText} body and ${batteryText} of backup.`;
+
+  specText.textContent =
+    'Look for 16 GB RAM, SSD storage, and at least Intel Core i5 / Ryzen 5 or above for smooth performance.';
+
+  linkText.innerHTML =
+    'Example: <a href="https://www.reliancedigital.in/laptops/c/S101210" target="_blank">Browse laptops on Reliance Digital</a>.';
+
+  resultBlock.classList.remove('hidden');
+  resultBlock.scrollIntoView({ behavior: 'smooth' });
+}
+
+prevBtn.addEventListener('click', () => {
+  if (currentStep > 1) {
+    currentStep--;
+    updateUI();
+  }
 });
-nextBtn.addEventListener('click',()=>{
-  if(!validateCurrentStep()) return;
-  if(currentStep<totalSteps){ currentStep++; updateUI(); }
-  else{ getRecommendation(); }
+
+nextBtn.addEventListener('click', () => {
+  if (!validateCurrentStep()) return;
+
+  if (currentStep < totalSteps) {
+    currentStep++;
+    updateUI();
+  } else {
+    getRecommendation();
+  }
 });
+
+// initial UI
 updateVisual();
 updateUI();
-
-/* getRecommendation() = same function you already have (no change needed) */
 </script>
 </body>
 </html>
